@@ -1,0 +1,506 @@
+.Secciontitulos {
+    background-color: var(--color-fondo-tarjetas);
+    padding: 60px max(5%, calc((100vw - 1200px) / 2)) 40px;
+    width: 100%;
+}
+
+.Secciontitulos p {
+    font-size: 14px;
+    color: var(--color-texto-opaco);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.Secciontitulos p::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background-color: var(--color-texto-opaco);
+}
+
+.Secciontitulos h1 {
+    font-family: var(--fuente-titulos);
+    font-size: 40px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.Secciontitulos h6 {
+    font-family: var(--fuente-principal);
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--color-texto-opaco);
+}
+
+.contenedorMisEventos {
+    background-color: var(--color-fondo-titulos);
+    padding: 40px max(5%, calc((100vw - 1200px) / 2)) 100px;
+    width: 100%;
+}
+
+.resumenEventos {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.pildoraResumen {
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    border-radius: 5px;
+    padding: 14px 22px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.pildoraResumen .numeroResumen {
+    font-family: var(--fuente-titulos);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-texto-blanco);
+}
+
+.pildoraResumen .textoResumen {
+    font-size: 13px;
+    color: var(--color-texto-opaco);
+}
+
+.filtrosEventos {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.filtroEvento {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-texto-opaco);
+    font-family: var(--fuente-principal);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all var(--transicion-base);
+}
+
+.filtroEvento:hover {
+    color: var(--color-texto-blanco);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.filtroEvento.activo {
+    background-color: var(--color-texto-blanco);
+    color: var(--color-fondo-tarjetas);
+    border-color: var(--color-texto-blanco);
+}
+
+.gridEventos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+    align-items: start; /* evita que las tarjetas cortas se estiren de más */
+}
+
+.ctaOtroEvento {
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    border-radius: var(--radio-tarjeta);
+    padding: 25px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.ctaOtroEvento h4 {
+    font-family: var(--fuente-principal);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-texto-blanco);
+    margin-bottom: 4px;
+}
+
+.ctaOtroEvento p {
+    font-size: 13px;
+    color: var(--color-texto-opaco);
+}
+
+.btonNuevoEvento {
+    background: #e2e8f0;
+    color: #1a202c;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-family: var(--fuente-principal);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transicion-base);
+}
+
+.btonNuevoEvento:hover {
+    background: #fff;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 900px) {
+    .gridEventos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .gridEventos {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE
+   ============================================ */
+@media screen and (max-width: 768px) {
+
+    /* --- TITULO --- */
+    .Secciontitulos {
+        padding: 30px 6% 25px;
+    }
+
+    .Secciontitulos p {
+        font-size: 12px;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .Secciontitulos p::before {
+        width: 30px;
+    }
+
+    .Secciontitulos h1 {
+        font-size: 28px;
+        line-height: 1.15;
+        margin-bottom: 8px;
+    }
+
+    .Secciontitulos h6 {
+        font-size: 13px;
+    }
+
+    .contenedorMisEventos {
+        padding: 30px 6% 60px;
+    }
+
+    /* --- PILDORAS DE RESUMEN: las 3 en una sola fila --- */
+    .resumenEventos {
+        flex-wrap: nowrap;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .pildoraResumen {
+        flex: 1;
+        min-width: 0; /* permite que el flex-item se encoja por debajo de su contenido */
+        padding: 10px 8px;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .pildoraResumen .numeroResumen {
+        font-size: 16px;
+    }
+
+    .pildoraResumen .textoResumen {
+        font-size: 11px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* --- FILTROS: tira horizontal deslizable en vez de envolver en varias filas --- */
+    .filtrosEventos {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+        gap: 8px;
+        margin-bottom: 20px;
+        padding-bottom: 4px; /* espacio para que la sombra/scroll no tape el borde de los botones */
+    }
+
+    .filtrosEventos::-webkit-scrollbar {
+        display: none;
+    }
+    .filtrosEventos {
+        scrollbar-width: none;
+    }
+
+    .filtroEvento {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        white-space: nowrap;
+        font-size: 12px;
+        padding: 7px 16px;
+    }
+
+    /* --- CTA NUEVO EVENTO: todo centrado --- */
+    .ctaOtroEvento {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 25px 20px;
+        gap: 15px;
+    }
+
+    .ctaOtroEvento div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* ============================================
+   MODAL DE DETALLE DE EVENTO (vista cliente)
+   ============================================ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-overlay.oculto {
+    display: none !important;
+}
+
+.modal-contenido {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    box-shadow: var(--cristal-sombra);
+    border-radius: var(--radio-tarjeta);
+}
+
+.btn-cerrar {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.45);
+    border: none;
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color var(--transicion-base);
+}
+
+.btn-cerrar:hover {
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.btn-cerrar svg {
+    width: 18px;
+    height: 18px;
+}
+
+.modal-cabecera {
+    position: relative;
+    height: 200px;
+}
+
+.modal-img-fondo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.modal-cabecera::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 30%, rgba(0, 0, 0, 0.8));
+    pointer-events: none;
+}
+
+.modal-cabecera-info {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+    right: 20px;
+    z-index: 1;
+}
+
+.etiqueta-tipo {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.modal-cabecera-info h2 {
+    font-family: var(--fuente-titulos);
+    font-size: 22px;
+    color: var(--color-texto-blanco);
+    margin-top: 4px;
+}
+
+/* La píldora de estado ya trae su propio color desde tarjetas.css (.estadoEvento.pendiente, etc);
+   aquí solo la reposicionamos para que quede dentro del header del modal, sin chocar con btn-cerrar */
+.modal-cabecera .estadoEvento {
+    position: absolute;
+    top: 15px;
+    right: 60px;
+    z-index: 2;
+}
+
+.modal-cuerpo {
+    padding: 25px;
+}
+
+.campo-detalle {
+    margin-bottom: 18px;
+}
+
+.campo-detalle label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-texto-opaco);
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.campo-detalle p {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-texto-blanco);
+}
+
+.fila-presupuesto {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 18px; /* el mismo espaciado que ya usan los .campo-detalle individuales */
+}
+
+.fila-presupuesto .campo-detalle {
+    margin-bottom: 0; /* el margen ya lo da .fila-presupuesto como grupo completo */
+}
+
+.fila-presupuesto .campo-detalle p {
+    font-weight: 600;
+}
+
+#modalSaldoPendiente {
+    color: rgba(255, 193, 7, 1); /* mismo tono que .estadoEvento.pendiente, para que resalte lo que falta por pagar */
+}
+
+@media screen and (max-width: 480px) {
+    .fila-presupuesto {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+.modal-disenador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 14px;
+    margin-top: 8px;
+}
+
+.avatar-disenador {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(70, 196, 190, 0.2);
+    color: rgba(70, 196, 190, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.info-disenador {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-disenador .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-texto-opaco);
+    margin-bottom: 2px;
+}
+
+.info-disenador .nombre {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-texto-blanco);
+}
+
+@media screen and (max-width: 768px) {
+    .modal-overlay {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .modal-contenido {
+        max-width: 100%;
+        max-height: 92vh;
+        border-radius: var(--radio-tarjeta) var(--radio-tarjeta) 0 0;
+    }
+
+    .modal-cabecera {
+        height: 160px;
+    }
+
+    .modal-cuerpo {
+        padding: 20px;
+    }
+}

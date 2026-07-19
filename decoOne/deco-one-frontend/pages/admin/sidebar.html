@@ -1,0 +1,42 @@
+<aside class="sidebar-admin">
+
+    <nav class="nav-sidebar">
+        <span class="etiqueta-seccion">Gestión</span>
+
+        <a href="dashboard.html" class="item-nav" data-ruta="dashboard">
+            <i data-lucide="layout-grid"></i> Dashboard
+        </a>
+        <a href="salones.html" class="item-nav" data-ruta="salones">
+            <i data-lucide="landmark"></i> Salones
+        </a>
+        <a href="inventario.html" class="item-nav" data-ruta="inventario">
+            <i data-lucide="package"></i> Inventario
+        </a>
+
+        <button type="button" class="item-nav item-nav-desplegable" id="botonSubmenuEventos">
+            <i data-lucide="calendar-days"></i> Eventos
+            <i data-lucide="chevron-down" class="icono-desplegable"></i>
+        </button>
+        <div class="submenu-sidebar" id="submenuEventos">
+            <a href="agenda.html" class="item-nav sub-item" data-ruta="agenda">
+                <li data-lucide="calendar"></li>Calendario
+            </a>
+            <a href="solicitudes.html" class="item-nav sub-item" data-ruta="solicitudes">
+                <li data-lucide="file-text"></li>Solicitudes
+            </a>
+            <a href="Historial.html" class="item-nav sub-item" data-ruta="historial">
+                <li data-lucide="history"></li>H. Eventos
+            </a>
+        </div>
+    </nav>
+
+    <!-- Perfil del admin: solo visible en mobile (en desktop ya está en el navbar) -->
+    <div class="sidebar-footer-movil">
+        <div class="perfil-sidebar-movil">
+            <div class="avatar-admin" id="avatarAdminUISidebar">A</div>
+            <span class="nombre-admin" id="nombreAdminUISidebar">Admin</span>
+        </div>
+        <a href="../../index.html"><i data-lucide="home"></i> Ir a Landing Page</a>
+        <a href="#" id="botonCerrarSesionSidebar" class="text-danger"><i data-lucide="log-out"></i> Cerrar Sesión</a>
+    </div>
+</aside>

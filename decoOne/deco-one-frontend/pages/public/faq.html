@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deco One - Contacto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Montserrat:wght@400;500;600&family=Newsreader:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/base/variables.css">
+    <link rel="stylesheet" href="../../css/base/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/tarjetas.css">
+    <link rel="stylesheet" href="../../css/components/inputs.css">
+    <link rel="stylesheet" href="../../css/components/botones.css">
+    <link rel="stylesheet" href="../../css/components/acordeon.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="../../css/components/dropDown.css">
+    <link rel="stylesheet" href="../../css/views/contacto.css">
+    <link rel="stylesheet" href="../../css/base/animation.css">
+    <link rel="stylesheet" href="../../css/base/responsive.css">
+</head>
+<body>
+
+    <header class="seccion-hero">
+        <nav class="clienteGeneral">
+            <div class="logoDeco">
+                <img src="../../assets/img/logos/imagen_2026-06-13_190700068 1 (1).png" alt="Logo Deco-One">
+                <h4>DECO<br>ONE</h4>
+                <button class="btn-hamburguesa" id="btnMenuMovil">☰</button>
+            </div>
+            <div class="barraMenu">
+                <a href="../../index.html">Inicio</a>
+                <div class="desplegableServicios">
+                    <a href="servicios.html">Servicios</a>
+                    <ul class="subMenu">
+                        <li><a href="boda.html">Bodas</a></li>
+                        <li><a href="xv.html">XV años</a></li>
+                        <li><a href="infantil.html">F. Infantiles</a></li>
+                        <li><a href="servicios.html" class="textoPequeño">Ver todos</a></li>
+                    </ul>
+                </div>
+                <a href="faq.html">Contacto</a>
+            </div>
+            <div class="registroMenu">
+                <div id="sinRegistro">
+                    <a href="../auth/login.html" class="iconoUsuario">
+                        <img src="../../assets/icons/user.png" alt="IconoUsuario"><br>
+                        Registro / Entrar
+                    </a>
+                </div>
+                <div id="conRegistro" class="oculto">
+                    <div>
+                        <a href="faq.html" id="iconoUsuario">
+                            <img src="../../assets/icons/user.png" alt="IconoUsuario"><br>
+                            <span id="nombreUsuarioMenu">Bienvenido</span>
+                        </a>
+                        <ul class="desplegableRegistro">
+                            <li class="item-cliente"><a href="../public/misEventos.html">Mis Eventos</a></li>
+                            <li class="item-decorador"><a href="../admin/dashboard.html">Administrador</a></li>
+                            <li><a href="#" id="botonCerrarSesion" class="textoPequeño">Cerrar sesion</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="titulosContacto">
+        <p>CONTACTO</p>
+        <h1>HABLEMOS DE TU EVENTO</h1>
+    </section>
+
+    <section class="seccionContactos">
+        <div class="contenedorInfoDecoOne">
+            <div class="NumDecoOne">
+                <li data-lucide="phone"></li>
+                <h6>TELEFONO</h6>
+                <p>+52 961 123 6859</p>
+            </div>
+            <div class="correoDecoOne">
+                <li data-lucide="mail"></li>
+                <h6>CORREO ELECTRONICO</h6>
+                <p>contacto@decoone.com</p>
+            </div>
+            <div class="ubicacionDecoOne">
+                <li data-lucide="map-pin"></li>
+                <h6>UBICACION</h6>
+                <p>Tuxtla Gutierrez, Chiapas</p>
+            </div>
+            <div class="horarioDecoOne">
+                <li data-lucide="calendar"></li>
+                <h6>HORARIO DE ATENCION</h6>
+                <p>Lun - Sab, 9:00 AM a 7:00 PM</p>
+            </div>
+            <div class="redesDeco">
+                <h6>REDES SOCIALES</h6>
+                <div class="botonesRedes">
+                    <a href="#" class="botonRedes">@DecoOne.chis</a>
+                    <a href="#" class="botonRedes">@DecoOneChiapas</a>
+                </div>
+            </div>
+        </div>
+        <div class="contenedorinfoCliente">
+        <div class="formularioCliente">
+            <h3>Cuentanos sobre tu evento</h3>
+            <form id="formularioContacto">
+                <input type="text" id="inputNombreFaq" placeholder="Tu nombre" required>
+                <input type="email" id="inputCorreoFaq" placeholder="Correo Electronico" required>
+                <input type="tel" id="inputTelefonoFaq" placeholder="Teléfono a 10 dígitos" required>
+                <div class="filaInputs">
+                    <div class="caja-desplegable-wrapper">
+                        <input type="hidden" name="tipoEvento" id="tipoEventoValor" required>
+
+                        <div class="caja-desplegable-trigger" id="cajaTrigger">
+                            <span class="placeholder-texto">Tipo de evento</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8">
+                                <path fill="rgba(255, 255, 255, 0.5)" d="M1.41 0L6 4.58L10.59 0L12 1.41L6 7.41L0 1.41L1.41 0Z"/>
+                            </svg>
+                        </div>
+
+                        <ul class="opciones-desplegables" id="opcionesMenu">
+                            <li data-value="Boda">Boda</li>
+                            <li data-value="XV años">XV años</li>
+                            <li data-value="Fiesta infantil">Fiesta Infantil</li>
+                            <li data-value="Baby Shower">Baby Shower</li>
+                        </ul>
+                    </div>
+
+                    <input type="date" id="inputFechaFaq" required>
+                </div>
+                <input type="text" id="inputSalonFaq" placeholder="Salon donde sera el evento" required>
+                <input type="text" id="inputIdeasFaq" placeholder="Vision de ideas para el evento">
+                <button type="submit" class="botonEnviar">Enviar mensaje</button>
+            </form>
+        </div>
+        </div>
+    </section>
+
+    <section class="seccionFAQ">
+        <h1>PREGUNTAS FRECUENTES</h1>
+        <div class="contenedorPreguntas">
+            <div class="botonPregunta">
+                <button class="preguntaFAQ">
+                    ¿Con cuanta anticipacion debo contratar?
+                </button>
+                <div class="respuestaFAQ">
+                    <p>Recomendamos contactarnos con al menos 4-8 semanas de anticipación para eventos grandes como bodas o XV años, y 2-4 semanas para eventos más pequeños.</p>
+                </div>
+            </div>
+        </div>
+        <div class="contenedorPreguntas">
+            <div class="botonPregunta">
+                <button class="preguntaFAQ">
+                    ¿Hacen Decoraciones en Tuxtla?
+                </button>
+                <div class="respuestaFAQ">
+                    <p>Por el momento, no hacemos decoraciones en Tuxtla.</p>
+                </div>
+            </div>
+        </div>
+        <div class="contenedorPreguntas">
+            <div class="botonPregunta">
+                <button class="preguntaFAQ">
+                    ¿Tienen paquetes ya predispuestos?
+                </button>
+                <div class="respuestaFAQ">
+                    <p>No tenemos paquetes predispuestos, pero podemos diseñar una solución personalizada para cada evento.</p>
+                </div>
+            </div>
+        </div>
+        <div class="contenedorPreguntas">
+            <div class="botonPregunta">
+                <button class="preguntaFAQ">
+                    ¿Que pasa si necesito cancelar?
+                </button>
+                <div class="respuestaFAQ">
+                    <p>Se habla directamente con el decorador para la cancelación.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="generalFooter">
+            <div class="logoFooter">
+                <div class="logo">
+                    <img src="../../assets/img/logos/imagen_2026-06-13_190700068 1 (1).png" alt="logoDeco">
+                    <h4>DECO<br>ONE</h4>
+                </div>
+                <p>Transformamos espacios y creamos experiencias únicas para los momentos más importantes de tu vida</p>
+            </div>
+            <div class="linksNavegacion">
+                <h4>NAVEGACION</h4>
+                <ul>
+                    <li><a href="../../index.html">Inicio</a></li>
+                    <li><a href="servicios.html">Servicios</a></li>
+                    <li><a href="faq.html">Contactanos</a></li>
+                </ul>
+            </div>
+            <div class="redesSociales">
+                <h4>SIGUENOS</h4>
+                <ul>
+                    <li><a href="#"> @DecoOne.Chis</a></li>
+                    <li><a href="#"> @DecoOneChiapas</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script>
+            lucide.createIcons();
+        </script>
+    <script src="../../js/core/localStorage.js"></script>
+    <script type="module" src="../../js/views/faq.js"></script> <!-- ✅ Agrega type="module" -->
+    <script src="../../js/core/anim.js"></script>
+    <script src="../../js/components/navbar.js"></script>
+</body>
+</html>

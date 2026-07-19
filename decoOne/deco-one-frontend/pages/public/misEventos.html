@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <title>DECO-ONE | Mis Eventos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Montserrat:wght@400;500;600&family=Newsreader:wght@500&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="../../css/base/variables.css">
+        <link rel="stylesheet" href="../../css/base/global.css">
+        <link rel="stylesheet" href="../../css/components/navbar.css">
+        <link rel="stylesheet" href="../../css/components/tarjetas.css">
+        <link rel="stylesheet" href="../../css/components/botones.css">
+        <link rel="stylesheet" href="../../css/components/footer.css">
+        <link rel="stylesheet" href="../../css/views/misEventos.css">
+        <link rel="stylesheet" href="../../css/base/animation.css">
+        <link rel="stylesheet" href="../../css/base/responsive.css">
+    </head>
+    <body>
+        
+        <header class="seccion-hero">
+            <nav class="clienteGeneral" id="landingPage">
+                <div class="logoDeco">
+                    <img src="../../assets/img/logos/imagen_2026-06-13_190700068 1 (1).png" alt="Logo Deco-One">
+                    <h4>DECO<br>ONE</h4>
+                    <button class="btn-hamburguesa" id="btnMenuMovil">☰</button>
+                </div>
+                <div class="barraMenu">
+                    <a href="../../index.html">Inicio</a>
+                    <div class="desplegableServicios">
+                        <a href="../public/servicios.html">Servicios</a>
+                        <ul class="subMenu">
+                            <li><a href="../public/boda.html">Bodas</a></li>
+                            <li><a href="../public/xv.html">XV años</a></li>
+                            <li><a href="../public/infantil.html">F. Infantiles</a></li>
+                            <li><a href="../public/servicios.html" class="textoPequeño">Ver todos</a></li>
+                        </ul>
+                    </div>
+                    <a href="../public/faq.html">Contacto</a>
+                </div>
+                <div class="registroMenu">
+                    <div id="sinRegistro">
+                        <a href="../auth/login.html" class="iconoUsuario">
+                            <img src="../../assets/icons/user.png" alt="IconoUsuario"><br>
+                            Registro / Entrar
+                        </a>
+                    </div>
+                    <div id="conRegistro" class="oculto">
+                        <div>
+                            <a href="#" id="iconoUsuario">
+                                <img src="../../assets/icons/user.png" alt="IconoUsuario"><br>
+                                <span id="nombreUsuarioMenu">Bienvenido</span>
+                            </a>
+                            <ul class="desplegableRegistro">
+                                <li class="item-cliente"><a href="#">Mis Eventos</a></li>
+                                <li class="item-decorador"><a href="../admin/dashboard.html">Administrador</a></li>
+                                <li><a href="#">Configuración</a></li>
+                                <li><a href="#" id="botonCerrarSesion" class="textoPequeño">Cerrar sesion</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <section class="Secciontitulos">
+            <p>MI CUENTA</p>
+            <h1>MIS EVENTOS</h1>
+            <h6>Historial y seguimiento de sus eventos</h6>
+        </section>
+
+        <section class="contenedorMisEventos">
+
+            <div class="resumenEventos">
+                <div class="pildoraResumen">
+                    <span class="numeroResumen" id="contadorCompletados">0</span>
+                    <span class="textoResumen">Completados</span>
+                </div>
+                <div class="pildoraResumen">
+                    <span class="numeroResumen" id="contadorProximos">0</span>
+                    <span class="textoResumen">Próximos</span>
+                </div>
+                <div class="pildoraResumen">
+                    <span class="numeroResumen" id="contadorProceso">0</span>
+                    <span class="textoResumen">En proceso</span>
+                </div>
+            </div>
+
+            <div class="filtrosEventos">
+                <button type="button" class="filtroEvento activo" data-filtro="todos">Todos</button>
+                <button type="button" class="filtroEvento" data-filtro="completado">Completados</button>
+                <button type="button" class="filtroEvento" data-filtro="curso">En curso</button>
+                <button type="button" class="filtroEvento" data-filtro="proceso">En proceso</button>
+            </div>
+
+            <div class="gridEventos" id="gridEventos">
+                <p style="text-align: center; grid-column: 1 / -1; color: var(--color-texto-opaco);">Cargando tus eventos...</p>
+            </div>
+
+            <div class="ctaOtroEvento">
+                <div>
+                    <h4>¿Planeas otro evento?</h4>
+                    <p>Hablemos por nuestros contactos</p>
+                </div>
+                <a href="../public/faq.html" class="btonNuevoEvento">Nuevo evento &rarr;</a>
+            </div>
+
+        </section>
+
+        <div id="modalDetalleEvento" class="modal-overlay oculto">
+            <div class="modal-contenido">
+
+                <button id="btnCerrarModal" class="btn-cerrar"><i data-lucide="x"></i></button>
+
+                <div class="modal-cabecera">
+                    <img src="" alt="Fondo Evento" class="modal-img-fondo" id="modalImgCabecera">
+                    <div class="modal-cabecera-info">
+                        <span class="etiqueta-tipo" id="modalTipoEvento"></span>
+                        <h2 id="modalTituloEvento"></h2>
+                    </div>
+                    <span class="estadoEvento" id="modalEstadoEvento"></span>
+                </div>
+
+                <div class="modal-cuerpo">
+                    <div class="campo-detalle">
+                        <label>Fecha</label>
+                        <p id="modalFecha"></p>
+                    </div>
+
+                    <div class="campo-detalle">
+                        <label>Ubicación</label>
+                        <p id="modalUbicacion"></p>
+                    </div>
+
+                    <div class="fila-presupuesto">
+                        <div class="campo-detalle">
+                            <label>Presupuesto total</label>
+                            <p id="modalPresupuestoTotal"></p>
+                        </div>
+                        <div class="campo-detalle">
+                            <label>Abonado</label>
+                            <p id="modalTotalAbonado"></p>
+                        </div>
+                        <div class="campo-detalle">
+                            <label>Saldo pendiente</label>
+                            <p id="modalSaldoPendiente"></p>
+                        </div>
+                    </div>
+
+                    <div class="modal-disenador">
+                        <div class="avatar-disenador" id="modalAvatarDisenador"></div>
+                        <div class="info-disenador">
+                            <span class="label">Diseñador Asignado</span>
+                            <span class="nombre" id="modalNombreDisenador"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <footer>
+            <div class="generalFooter">
+                <div class="logoFooter">
+                    <div class="logo">
+                        <img src="../../assets/img/logos/imagen_2026-06-13_190700068 1 (1).png" alt="logoDeco">
+                        <h4>DECO<br>ONE</h4>
+                    </div>
+                    <p>Transformamos espacios y creamos experiencias unicas para los momentos mas importantes de tu vida</p>
+                </div>
+                <div class="linksNavegacion">
+                    <h4>NAVEGACION</h4>
+                    <ul>
+                        <li><a href="../../index.html">Inicio</a></li>
+                        <li><a href="../public/servicios.html">Servicios</a></li>
+                        <li><a href="../public/faq.html">Contactanos</a></li>
+                    </ul>
+                </div>
+                <div class="redesSociales">
+                    <h4>SIGUENOS</h4>
+                    <ul>
+                        <li><a href="#">@DecoOne.chis</a></li>
+                        <li><a href="#">@DecoOneChiapas</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script>lucide.createIcons();</script>
+        <script src="../../js/core/localStorage.js"></script>
+        <script src="../../js/components/solicitudesSimulado.js"></script>
+        <script src="../../js/components/agendaSimulado.js"></script>
+        <script src="../../js/components/navbar.js"></script>
+        <script src="../../js/views/misEventos.js"></script>
+    </body>
+</html>

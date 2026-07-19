@@ -1,0 +1,62 @@
+.titulo-inventario {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.resumen-inventario {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.resumen-inventario > span:first-child {
+    font-size: 13px;
+    color: var(--color-texto-opaco);
+}
+
+.bloque-inventario {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.tabla-inventario {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla-inventario th {
+    text-align: left;
+    color: var(--color-texto-opaco);
+    font-size: 12px;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tabla-inventario td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    font-size: 14px;
+}
+
+.barra-contenedor {
+    width: 150px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    display: inline-block;
+    margin-right: 10px;
+    overflow: hidden;
+}
+
+.barra-progreso {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.barra-ok { background: #409995; }
+.barra-alerta { background: #ff4d4d; }

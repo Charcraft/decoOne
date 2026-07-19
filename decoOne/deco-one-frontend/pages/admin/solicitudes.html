@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitudes | Deco-One</title>
+    <link rel="stylesheet" href="../../css/base/variables.css">
+    <link rel="stylesheet" href="../../css/base/global.css">
+    <link rel="stylesheet" href="../../css/components/sidebar.css">
+    <link rel="stylesheet" href="../../css/components/navbarAdmin.css">
+    <link rel="stylesheet" href="../../css/components/panel-admin.css">
+    <link rel="stylesheet" href="../../css/components/badges.css">
+    <link rel="stylesheet" href="../../css/components/navMes.css">
+    <link rel="stylesheet" href="../../css/views/solicitudes.css">
+</head>
+<body class="body-admin">
+    <div id="navbar-placeholder"></div>
+
+    <div class="contenedor-dashboard">
+        <div id="sidebar-placeholder"></div>
+
+        <main class="dashboard-container">
+            <section class="titulo-solicitudes">
+                <div>
+                    <h2>Solicitudes</h2>
+                    <div class="navegacion-mes">
+                        <button type="button" id="botonMesAnterior"><i data-lucide="chevron-left"></i></button>
+                        <span id="etiquetaMesSolicitudes">—</span>
+                        <button type="button" id="botonMesSiguiente"><i data-lucide="chevron-right"></i></button>
+                    </div>
+                </div>
+                <span class="badge-pendientes" id="badgePendientes">
+                    <i data-lucide="clock"></i>
+                    <span id="totalPendientes">0</span> Pendientes
+                </span>
+            </section>
+
+            <section class="grid-solicitudes" id="gridSolicitudes">
+                <!-- JS genera aquí cada tarjeta -->
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal: Detalle de solicitud -->
+    <div class="overlay-modal oculto" id="overlayModalSolicitud">
+        <div class="modal-solicitud">
+            <button type="button" class="cerrar-modal-flotante" id="botonCerrarModalSolicitud">
+                <i data-lucide="x"></i>
+            </button>
+
+            <div class="imagen-modal-solicitud">
+                <img id="imagenModalSolicitud" src="" alt="">
+                <div class="overlay-imagen-modal">
+                    <span class="badge-estado-modal" id="badgeEstadoModal">Pendiente</span>
+                    <h3 id="nombreModalSolicitud">—</h3>
+                </div>
+            </div>
+
+            <div class="cuerpo-modal-solicitud">
+                <div class="fila-datos-modal">
+                    <div class="dato-modal">
+                        <span class="etiqueta-dato-modal"><i data-lucide="calendar"></i> FECHA</span>
+                        <span class="valor-dato-modal" id="fechaModalSolicitud">—</span>
+                    </div>
+                    <div class="dato-modal">
+                        <span class="etiqueta-dato-modal"><i data-lucide="map-pin"></i> SALON</span>
+                        <span class="valor-dato-modal" id="salonModalSolicitud">—</span>
+                    </div>
+                </div>
+
+                <div class="fila-datos-modal">
+                    <div class="dato-modal">
+                        <span class="etiqueta-dato-modal"><i data-lucide="party-popper"></i> TIPO DE EVENTO</span>
+                        <span class="valor-dato-modal" id="tipoModalSolicitud">—</span>
+                    </div>
+                    <div class="dato-modal">
+                        <span class="etiqueta-dato-modal"><i data-lucide="mail"></i> CORREO</span>
+                        <span class="valor-dato-modal" id="correoModalSolicitud">—</span>
+                    </div>
+                </div>
+
+                <div class="dato-modal dato-mensaje-modal">
+                    <span class="etiqueta-dato-modal"><i data-lucide="message-circle"></i> MENSAJE DEL CLIENTE</span>
+                    <p id="mensajeModalSolicitud">—</p>
+                </div>
+
+                <div class="acciones-modal-solicitud">
+                    <button type="button" class="boton-rechazar-solicitud" id="botonRechazarSolicitud">Rechazar</button>
+                    <button type="button" class="boton-aprobar-solicitud" id="botonAprobarSolicitud">Aprobar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../../js/core/localStorage.js"></script>
+    <script src="../../js/components/agendaSimulado.js"></script>
+    <script type="module" src="../../js/views/solicitudes.js"></script> <!-- ✅ AQUÍ ESTÁ EL CAMBIO -->
+    <script src="../../js/components/navbar-admin.js"></script>
+    <script src="../../js/components/sidebar-admin.js"></script>
+    <script src="../../js/components/layout-loader.js"></script>
+</body>
+</html>

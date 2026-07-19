@@ -1,0 +1,90 @@
+/* Badges de estado — antes repetidos en historial.css, inventario.css, solicitudes.css */
+.badge-estado {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.badge-proceso {
+    background-color: rgba(75, 181, 67, 0.15);
+    color: var(--color-estado-completado);
+}
+
+.badge-curso {
+    background-color: rgba(243, 156, 18, 0.15);
+    color: var(--color-estado-proceso);
+}
+
+.badge-terminado {
+    background-color: rgba(255, 118, 118, 0.15);
+    color: #ff7676;
+}
+
+/* Badge de alerta (Inventario: "sin stock" / "4 sin disponibilidad") */
+.badge-alerta {
+    color: #ff4d4d;
+    background: rgba(255, 77, 77, 0.1);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+.badge-alerta-total {
+    color: #ff4d4d;
+    background: rgba(255, 77, 77, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-alerta-total.oculto {
+    display: none;
+}
+
+/* Badge de pendientes (Solicitudes) */
+.badge-pendientes {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(243, 156, 18, 0.12);
+    border: 1px solid rgba(243, 156, 18, 0.3);
+    color: var(--color-estado-proceso);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    height: fit-content;
+}
+
+.badge-pendientes svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Badge de estado dentro del modal (Solicitudes) */
+.badge-estado-modal {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+}
+
+.badge-modal-pendiente {
+    background-color: rgba(243, 156, 18, 0.85);
+    color: #1a202c;
+}
+
+.badge-modal-contactado {
+    background-color: rgba(75, 181, 67, 0.85);
+    color: #ffffff;
+}
+
+.badge-modal-descartado {
+    background-color: rgba(255, 118, 118, 0.85);
+    color: #ffffff;
+}

@@ -1,0 +1,176 @@
+.clienteGeneral {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 5%;
+    background-color: var(--color-header-footer);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logoDeco {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.logoDeco img {
+    width: 60px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.logoDeco h4 {
+    font-family: var(--fuente-logotipo);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.barraMenu {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    font-family: var(--fuente-titulos);
+    font-weight: 500;
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+.barraMenu > a,
+.desplegableServicios > a {
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.barraMenu > a::after,
+.desplegableServicios > a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: var(--color-texto-blanco);
+    transition: width var(--transicion-base);
+}
+
+.barraMenu > a:hover::after,
+.desplegableServicios > a:hover::after {
+    width: 100%;
+}
+
+.registroMenu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 150px;
+    flex-shrink: 0;
+}
+    
+
+.desplegableServicios,
+#conRegistro > div {
+    position: relative;
+    padding: 15px 0;
+}
+
+.subMenu,
+.desplegableRegistro {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background-color: var(--color-fondo-secundario);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radio-tarjeta);
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.desplegableRegistro {
+    left: auto;
+    right: 0;
+}
+
+.subMenu::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: transparent;
+}
+
+.desplegableServicios:hover .subMenu,
+#conRegistro > div:hover .desplegableRegistro {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.subMenu li {
+    margin-bottom: 0;
+}
+
+.subMenu a,
+.desplegableRegistro a {
+    display: inline-block;
+    font-family: var(--fuente-principal);
+    font-size: 16px;
+    font-weight: 500;
+    padding-bottom: 4px;
+    text-transform: none;
+    white-space: nowrap;
+    position: relative;
+}
+
+.subMenu a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: var(--color-texto-blanco);
+    transition: width var(--transicion-base);
+}
+
+.subMenu a:hover::after {
+    width: 100%;
+}
+
+.textoPequeño {
+    font-size: 14px !important;
+    color: var(--color-texto-opaco) !important;
+    opacity: 0.8;
+}
+
+.iconoUsuario,
+#iconoUsuario {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;    
+    justify-content: center;
+    text-decoration: none;               
+    color: inherit;         
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.iconoUsuario,
+#iconoUsuario img {
+    width: 33px;  
+    height: 33px;
+    object-fit: contain;
+
+}
+

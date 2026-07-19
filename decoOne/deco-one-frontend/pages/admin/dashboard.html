@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Deco-One</title>
+    <link rel="stylesheet" href="../../css/base/variables.css">
+    <link rel="stylesheet" href="../../css/base/global.css">
+    <link rel="stylesheet" href="../../css/components/sidebar.css">
+    <link rel="stylesheet" href="../../css/components/navbarAdmin.css">
+    <link rel="stylesheet" href="../../css/components/panel-admin.css">
+    <link rel="stylesheet" href="../../css/components/tarjetas.css">
+    <link rel="stylesheet" href="../../css/components/grafico-barras.css">
+    <link rel="stylesheet" href="../../css/views/dashboard.css">
+    <link rel="stylesheet" href="../../css/base/responsive.css">
+
+</head>
+<body class="body-admin">
+
+    <div id="navbar-placeholder"></div>
+
+    <div class="contenedor-dashboard">
+        <div id="sidebar-placeholder"></div>
+
+        <main class="dashboard-container">
+            <section class="titulo-pagina">
+                <h2>Dashboard</h2>
+                <p>Vista general.</p>
+            </section>
+
+            <section class="seccion-metricas">
+                <div class="tarjeta-metrica">
+                    <div class="icono-metrica"><i data-lucide="calendar"></i></div>
+                    <div>
+                        <h3 id="metricaEventos">—</h3>
+                        <p>Eventos este mes</p>
+                    </div>
+                </div>
+                <div class="tarjeta-metrica">
+                    <div class="icono-metrica"><i data-lucide="corner-right-up"></i></div>
+                    <div>
+                        <h3 id="metricaPresupuesto">—</h3>
+                        <p>Presupuesto promedio</p>
+                    </div>
+                </div>
+                <div class="tarjeta-metrica">
+                    <div class="icono-metrica"><i data-lucide="users"></i></div>
+                    <div>
+                        <h3 id="metricaInvitados">—</h3>
+                        <p>Invitados promedio</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="grid-admin-info">
+                <div class="contenedor-bloque">
+                    <div class="encabezado-bloque">
+                        <h4>DATOS DEL EVENTO MAS PROXIMO</h4>
+                        <select class="input-admin input-corto" id="selectorTipoEvento">
+                            <option value="Boda" selected>Boda</option>
+                            <option value="Bautizo">Bautizo</option>
+                        </select>
+                    </div>
+
+                    <div class="fila-datos">
+                        <div>
+                            <label>Nombre de evento</label>
+                            <input type="text" class="input-admin" id="inputNombreEvento" readonly>
+                        </div>
+                        <div>
+                            <label>Presupuesto</label>
+                            <input type="text" class="input-admin" id="inputPresupuesto" readonly>
+                        </div>
+                    </div>
+
+                    <label>Materiales más solicitados</label>
+                    <div class="caja-lista" id="listaMateriales"></div>
+                </div>
+
+                <div class="contenedor-bloque">
+                    <h4>PREDICCIONES Y RECOMENDACIONES</h4>
+                    <div class="caja-texto" id="cajaEstiloSugerido"></div>
+                    <div class="caja-texto" id="cajaPaletaColores"></div>
+
+                    <label class="etiqueta-tendencias">Tendencias actuales</label>
+                    <ul class="lista-tendencias" id="listaTendencias"></ul>
+                </div>
+            </section>
+
+            <section class="contenedor-bloque">
+                <h4>DEMANDA ESTIMADA</h4>
+                <div class="grafico-demanda" id="graficoDemanda"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../../js/core/localStorage.js"></script>
+    <script src="../../js/components/dashboardSimulado.js"></script>
+    <script src="../../js/views/dashboard.js"></script>
+    <script src="../../js/components/navbar-admin.js"></script>
+    <script src="../../js/components/sidebar-admin.js"></script>
+    <script src="../../js/components/layout-loader.js"></script>
+</body>
+</html>

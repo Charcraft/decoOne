@@ -1,0 +1,182 @@
+form {
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+form h2 {
+    font-family: var(--fuente-principal);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+form p {
+    font-size: 12px;
+    color: var(--color-texto-secundario);
+    margin-bottom: 25px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--color-texto-blanco);
+    font-family: var(--fuente-titulos);
+    font-size: 13px;
+    transition: border-color var(--transicion-base), background var(--transicion-base);
+}
+
+input::placeholder {
+    color: var(--color-texto-secundario);
+}
+
+input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.btonesEleccion {
+    display: flex;
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.btonesEleccion button {
+    flex: 1;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-titulos);
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 1;
+    transition: color var(--transicion-base);
+}
+
+.btonesEleccion button.activo {
+    color: var(--color-texto-blanco);
+    font-weight: 500;
+}
+
+.fondo-deslizante {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.mover-derecha .fondo-deslizante {
+    transform: translateX(100%);
+}
+
+#linkRecuperar {
+    text-align: right;
+    font-size: 11px;
+    color: var(--color-texto-secundario);
+    text-decoration: none;
+    margin-top: -5px;
+    margin-bottom: 25px;
+    transition: color var(--transicion-base);
+}
+
+#linkRecuperar:hover {
+    color: var(--color-texto-blanco);
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
+.ocultandose {
+    animation: fadeOut 0.3s ease-in forwards !important;
+}
+
+.filaInputs {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.filaInputs input {
+    flex: 1;
+}
+
+.formularioCliente input,
+.formularioCliente textarea {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--color-texto-blanco);
+    font-family: var(--fuente-principal);
+    font-size: 14px;
+    transition: border-color var(--transicion-base), background var(--transicion-base);
+}
+
+.formularioCliente input::placeholder,
+.formularioCliente textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.formularioCliente input:focus,
+.formularioCliente textarea:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.eleccionEvento{
+    flex: 1;
+    width: 100%;
+}
+
+.eleccionEvento select {
+    width: 100%;
+    margin-bottom: 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: rgba(0, 0, 0, 0.2) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="rgba(255, 255, 255, 0.5)" d="M1.41 0L6 4.58L10.59 0L12 1.41L6 7.41L0 1.41L1.41 0Z"/></svg>') no-repeat right 16px center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--color-texto-blanco);
+    font-family: var(--fuente-principal);
+    font-size: 14px;
+    transition: border-color var(--transicion-base), background var(--transicion-base);
+    cursor: pointer;
+}
+
+.EleccionEvento select:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    /* Al hacer focus, la caja se oscurece y la flecha se vuelve más blanca */
+    background: rgba(0, 0, 0, 0.3) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><path fill="rgba(255, 255, 255, 0.9)" d="M1.41 0L6 4.58L10.59 0L12 1.41L6 7.41L0 1.41L1.41 0Z"/></svg>') no-repeat right 16px center;
+}
+.EleccionEvento select:invalid {
+    color: rgba(255, 255, 255, 0.5);
+}
+.EleccionEvento select option {
+    background-color: #222; /* Fondo oscuro acorde a tu diseño */
+    color: #ffffff;
+}

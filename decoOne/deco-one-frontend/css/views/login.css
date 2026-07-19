@@ -1,0 +1,131 @@
+.general {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.ContenedorSesion {
+    width: 100%;
+    padding: 35px;
+    /* El fondo, borde, blur y sombra ahora vienen de .efecto-cristal en el HTML */
+}
+
+.logoDeco {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logoDeco img {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+.logoDeco h1 {
+    font-family: var(--fuente-logotipo);
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#formularioLogin,
+#formularioRegistro,
+#recuperarContraseña {
+    display: flex;
+    flex-direction: column;
+}
+
+form h2 {
+    font-family: var(--fuente-titulos);
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+form p {
+    font-size: 13px;
+    color: var(--color-texto-opaco);
+    margin-bottom: 20px;
+}
+
+#linkRecuperar {
+    display: block;
+    text-align: right;
+    font-size: 11px;
+    color: var(--color-texto-secundario);
+    text-decoration: none;
+    margin-top: -5px;
+    margin-bottom: 25px;
+    transition: color var(--transicion-base);
+}
+
+#linkRecuperar:hover {
+    color: var(--color-texto-blanco);
+}
+
+#formularioLogin:not([style*="display: none"]),
+#formularioRegistro:not([style*="display: none"]),
+#recuperarContraseña:not([style*="display: none"]) {
+    animation: aparecerSuave 0.4s ease-out forwards;
+}
+
+.ocultandose {
+    animation: desaparecerSuave 0.3s ease-in forwards !important;
+}
+
+@keyframes aparecerSuave {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes desaparecerSuave {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-15px); }
+}
+
+.btonesEleccion {
+    position: relative;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 5px;
+    margin-bottom: 30px;
+}
+
+.btonesEleccion button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 10px 0;
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-principal);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 2;
+    transition: color var(--transicion-base);
+}
+
+.btonesEleccion button.activo {
+    color: var(--color-texto-blanco);
+}
+
+.fondo-deslizante {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: calc(50% - 5px);
+    height: calc(100% - 10px);
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+#contenedorBotones.mover-derecha .fondo-deslizante {
+    transform: translateX(100%);
+}

@@ -1,0 +1,73 @@
+footer {
+    background-color: var(--color-header-footer); 
+    padding: 70px 5%;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+}
+
+.generalFooter {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logoFooter .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    font-family: "Newsreader", serif !important;
+}
+
+.logoFooter .logo img {
+    height: 60px;
+}
+
+.logoFooter p {
+    color: var(--color-texto-opaco);
+    font-size: 13px;
+    line-height: 1.8;
+    max-width: 350px;
+}
+
+.linksNavegacion h4, 
+.redesSociales h4 {
+    font-family: var(--fuente-titulos);
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+.linksNavegacion a, 
+.redesSociales a {
+    color: var(--color-texto-opaco);
+    font-size: 14px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.linksNavegacion a:hover, 
+.redesSociales a:hover {
+    color: var(--color-texto-blanco);
+}
+
+@media screen and (max-width: 768px) {
+    .generalFooter {
+        grid-template-columns: 1fr; 
+        gap: 40px; 
+        text-align: center; 
+    }
+
+    /* Centrar el contenedor del logo */
+    .logoFooter .logo {
+        justify-content: center;
+    }
+
+    /* Centrar el párrafo de descripción */
+    .logoFooter p {
+        margin: 0 auto;
+    }
+}

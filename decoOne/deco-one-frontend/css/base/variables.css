@@ -1,0 +1,35 @@
+/* Archivo: css/base/variables.css */
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&family=Montserrat:wght@400;600&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap');
+
+:root {
+    /* Colores de fondo */
+    --color-header-footer: rgba(15, 53, 62, 1);
+    --color-fondo-titulos: rgba(29, 87, 103, 1);
+    --color-fondo-tarjetas: rgba(20, 69, 82, 1);
+    --color-fondo-secundario: rgba(15, 53, 62, 0.75);
+    --color-fondo-principal: var(--color-fondo-tarjetas);
+    --color-claro: var(--color-fondo-tarjetas); 
+    /* Colores de componentes */
+    --color-tarjetas: rgba(255, 255, 255, 0.04);
+    /* Colores de texto */
+    --color-texto-blanco: #ffffff;
+    --color-texto-opaco: rgba(255, 255, 255, 0.7);
+    --color-texto-secundario: #9ab0b8; 
+    /* Tipografía */
+    --fuente-principal: 'Montserrat', sans-serif;
+    --fuente-titulos: 'Jost', sans-serif;
+    --fuente-logotipo: 'Newsreader', serif;
+    /* Transiciones */
+    --transicion-base: 0.3s ease;
+    /* Efecto cristal */
+    --cristal-fondo: linear-gradient(135deg, rgba(50, 140, 165, 0.25) 0%, rgba(44, 128, 151, 0.4) 100%);
+    --cristal-fondo-hover: linear-gradient(135deg, rgba(69, 139, 158, 0.35) 0%, rgba(68, 143, 164, 0.5) 100%);
+    --cristal-borde: 1px solid rgba(80, 180, 210, 0.25);
+    --cristal-sombra: 0 12px 32px rgba(50, 140, 165, 0.10), inset 0 0 12px rgba(50, 140, 165, 0.1);
+    --cristal-blur: 16px;
+    --radio-tarjeta: 12px;
+
+    --color-estado-completado: #4bb543;
+    --color-estado-proximo: rgba(70, 196, 190, 1);
+    --color-estado-proceso: #f39c12;
+}

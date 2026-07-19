@@ -1,0 +1,126 @@
+.titulo-agenda {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.titulo-agenda h2 {
+    font-family: var(--fuente-titulos);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.contenedor-calendario {
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    border-radius: var(--radio-tarjeta);
+    overflow: hidden;
+}
+
+.encabezado-dias-agenda {
+    display: grid;
+    grid-template-columns: 60px repeat(7, 1fr);
+    background-color: rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.celda-esquina {
+    /* vacío, solo alinea con la columna de horas */
+}
+
+.celda-dia-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+}
+
+.nombre-dia {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--color-texto-opaco);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.numero-dia {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.numero-dia.dia-actual {
+    color: rgba(70, 196, 190, 1);
+}
+
+.cuerpo-calendario {
+    display: flex;
+    max-height: 560px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.columna-horas-agenda {
+    width: 60px;
+    flex-shrink: 0;
+}
+
+.etiqueta-hora {
+    height: 60px;
+    font-size: 11px;
+    color: var(--color-texto-opaco);
+    text-align: right;
+    padding-right: 10px;
+    box-sizing: border-box;
+    transform: translateY(-6px);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.columnas-dias-agenda {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.columna-dia {
+    position: relative;
+    border-left: 1px solid rgba(255, 255, 255, 0.04);
+    background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.04) 0,
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px,
+        transparent 60px
+    );
+}
+
+.evento-agenda {
+    position: absolute;
+    left: 4px;
+    right: 4px;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 12px;
+    color: var(--color-texto-blanco);
+    overflow: hidden;
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    box-shadow: var(--cristal-sombra);
+
+    cursor: pointer;
+}
+
+.evento-agenda strong {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+
+.evento-agenda small {
+    font-size: 10px;
+    opacity: 0.85;
+}

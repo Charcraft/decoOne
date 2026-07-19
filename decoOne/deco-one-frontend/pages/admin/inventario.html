@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario | Deco-One</title>
+    <link rel="stylesheet" href="../../css/base/variables.css">
+    <link rel="stylesheet" href="../../css/base/global.css">
+    <link rel="stylesheet" href="../../css/components/sidebar.css">
+    <link rel="stylesheet" href="../../css/components/navbarAdmin.css">
+    <link rel="stylesheet" href="../../css/components/panel-admin.css">
+    <link rel="stylesheet" href="../../css/components/modal.css">
+    <link rel="stylesheet" href="../../css/components/botones.css">
+    <link rel="stylesheet" href="../../css/components/badges.css">
+    <link rel="stylesheet" href="../../css/components/notificaciones.css">
+    <link rel="stylesheet" href="../../css/components/barraBusqueda.css">
+    <link rel="stylesheet" href="../../css/views/inventario.css">
+</head>
+<body class="body-admin">
+    <div id="contenedorNotificaciones" class="contenedor-notificaciones"></div>
+    <div id="navbar-placeholder"></div>
+    
+
+    <div class="contenedor-dashboard">
+        <div id="sidebar-placeholder"></div>
+
+        <main class="dashboard-container">
+            <section class="titulo-inventario">
+                <div>
+                    <h2>Inventario</h2>
+                    <div class="resumen-inventario">
+                        <span id="totalElementos">— Elementos Registrados</span>
+                        <span id="totalSinStock" class="badge-alerta-total"></span>
+                    </div>
+                </div>
+                <button type="button" class="boton-agregar" id="botonAgregar">
+                    <i data-lucide="plus"></i> Agregar
+                </button>
+            </section>
+
+            <section class="contenedor-bloque bloque-inventario">
+                <div class="barra-busqueda">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="buscadorInventario" placeholder="Buscar por tipo, referencia o fecha...">
+                </div>
+
+                <table class="tabla-inventario">
+                    <thead>
+                        <tr>
+                            <th>FECHA</th>
+                            <th>NO. REF</th>
+                            <th>TIPO MOBILIARIO</th>
+                            <th>CANTIDAD</th>
+                            <th>EN USO</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTablaInventario"></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+</div> <div id="modalAgregar" class="modal-overlay oculto">
+        <div class="modal-contenedor">
+            <div class="modal-cabecera">
+                <div class="modal-titulo">
+                    <i data-lucide="package"></i>
+                    <h3>Agregar a Inventario</h3>
+                </div>
+                <button type="button" class="boton-cerrar-modal" id="cerrarModalAgregar">&times;</button>
+            </div>
+            <form id="formularioAgregar" class="modal-formulario">
+                <div class="campo-formulario">
+                    <label>TIPO DE MOBILIARIO</label>
+                    <input type="text" id="addTipo" placeholder="Ej: Sillones, Mesas, Manteles..." required>
+                </div>
+                <div class="campo-formulario">
+                    <label>NÚMERO DE REFERENCIA</label>
+                    <input type="text" id="addReferencia" placeholder="Ej: 00402" required>
+                </div>
+                <div class="campo-formulario">
+                    <label>FECHA</label>
+                    <input type="date" id="addFecha" required>
+                </div>
+                <div class="fila-formulario">
+                    <div class="campo-formulario">
+                        <label>CANTIDAD TOTAL</label>
+                        <input type="number" id="addCantidad" value="0" min="0" required>
+                    </div>
+                    <div class="campo-formulario">
+                        <label>EN USO</label>
+                        <input type="number" id="addEnUso" value="0" min="0" required>
+                    </div>
+                </div>
+                <div class="modal-acciones">
+                    <button type="button" class="boton-secundario" id="cancelarAgregar">Cancelar</button>
+                    <button type="submit" class="boton-primario">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalEliminar" class="modal-overlay oculto">
+        <div class="modal-contenedor">
+            <div class="modal-cabecera">
+                <div class="modal-titulo">
+                    <i data-lucide="trash-2"></i>
+                    <h3>Eliminar del Inventario</h3>
+                </div>
+                <button type="button" class="boton-cerrar-modal" id="cerrarModalEliminar">&times;</button>
+            </div>
+            <div class="modal-cuerpo">
+                <p>SEGURO QUE DESEA ELIMINAR ESTE/ESTOS ELEMENTOS DEL INVENTARIO.</p>
+                <div class="campo-formulario" style="margin-top: 1.5rem;">
+                    <label>CANTIDAD (OPCIONAL)</label>
+                    <input type="number" id="deleteCantidad" placeholder="0" min="1">
+                    <small style="color: #8fa0a8; margin-top: 0.5rem; display: block;">
+                        * Si lo dejas vacío o en 0, se eliminará el elemento por completo.
+                    </small>
+                </div>
+                <div class="modal-acciones" style="margin-top: 2rem;">
+                    <button type="button" class="boton-secundario" id="cancelarEliminar">Cancelar</button>
+                    <button type="button" class="boton-peligro" id="confirmarEliminar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script>
+            lucide.createIcons();
+        </script>
+
+        <script src="../../js/core/localStorage.js"></script>
+        <script src="../../js/core/apiConfig.js"></script>
+        <script src="../../js/components/inventarioSimulado.js"></script>
+        <script src="../../js/views/inventario.js"></script>
+        <script src="../../js/components/navbar-admin.js"></script>
+        <script src="../../js/components/sidebar-admin.js"></script>
+        <script src="../../js/components/layout-loader.js"></script>
+</body>
+</html>

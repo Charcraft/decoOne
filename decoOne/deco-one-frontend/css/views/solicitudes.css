@@ -1,0 +1,249 @@
+.titulo-solicitudes {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.titulo-solicitudes h2 {
+    font-family: var(--fuente-titulos);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.grid-solicitudes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.tarjeta-solicitud {
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    border-radius: var(--radio-tarjeta);
+    overflow: hidden;
+    transition: transform var(--transicion-base), box-shadow var(--transicion-base);
+}
+
+.tarjeta-solicitud:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.tarjeta-resuelta {
+    opacity: 0.5;
+}
+
+.imagen-solicitud {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
+.info-solicitud {
+    padding: 18px;
+}
+
+.encabezado-solicitud {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.encabezado-solicitud h3 {
+    font-family: var(--fuente-titulos);
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.tiempo-solicitud {
+    font-size: 11px;
+    color: var(--color-texto-opaco);
+    white-space: nowrap;
+}
+
+.subtitulo-solicitud {
+    font-size: 13px;
+    color: var(--color-texto-opaco);
+    margin: 4px 0 12px;
+}
+
+.ideas-solicitud {
+    font-size: 13px;
+    color: var(--color-texto-blanco);
+    opacity: 0.85;
+    line-height: 1.5;
+}
+
+.mensaje-vacio-solicitudes {
+    color: var(--color-texto-opaco);
+    font-size: 14px;
+    padding: 40px 0;
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+/* Este modal SÍ se queda aquí porque tiene diseño propio (imagen de cabecera) distinto al modal-admin.css genérico */
+.overlay-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+}
+
+.overlay-modal.oculto {
+    display: none;
+}
+
+.modal-solicitud {
+    width: 460px;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    background-color: var(--color-header-footer);
+    border-radius: var(--radio-tarjeta);
+    position: relative;
+}
+
+.cerrar-modal-flotante {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: var(--color-texto-blanco);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.cerrar-modal-flotante svg { width: 16px; height: 16px; }
+
+.imagen-modal-solicitud {
+    position: relative;
+    height: 200px;
+}
+
+.imagen-modal-solicitud img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.overlay-imagen-modal {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px 20px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+}
+
+.overlay-imagen-modal h3 {
+    font-family: var(--fuente-titulos);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-texto-blanco);
+}
+
+.cuerpo-modal-solicitud {
+    padding: 20px;
+}
+
+.fila-datos-modal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.dato-modal {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 12px 14px;
+}
+
+.etiqueta-dato-modal {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--color-texto-opaco);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.etiqueta-dato-modal svg { width: 12px; height: 12px; }
+
+.valor-dato-modal {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-texto-blanco);
+}
+
+.dato-mensaje-modal p {
+    font-size: 13px;
+    color: var(--color-texto-blanco);
+    font-style: italic;
+    line-height: 1.6;
+    margin-top: 4px;
+}
+
+.acciones-modal-solicitud {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.boton-rechazar-solicitud,
+.boton-aprobar-solicitud {
+    flex: 1;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: var(--fuente-principal);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.boton-rechazar-solicitud {
+    background: transparent;
+    border: 1px solid #ff7676;
+    color: #ff7676;
+}
+
+.boton-rechazar-solicitud:hover:not(:disabled) {
+    background: rgba(255, 118, 118, 0.08);
+}
+
+.boton-aprobar-solicitud {
+    background-color: var(--color-texto-blanco);
+    border: none;
+    color: var(--color-fondo-tarjetas);
+}
+
+.boton-aprobar-solicitud:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+.boton-rechazar-solicitud:disabled,
+.boton-aprobar-solicitud:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

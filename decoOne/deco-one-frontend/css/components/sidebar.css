@@ -1,0 +1,282 @@
+.body-admin {
+    background-color: var(--color-fondo-principal);
+    margin: 0;
+    color: var(--color-texto-blanco);
+    font-family: var(--fuente-principal);
+}
+
+.sidebar-admin {
+    position: fixed;
+    top: 88;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    background:  var( --color-header-footer);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.logo-admin {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.logo-admin img {
+    height: 45px;
+    width: auto;
+}
+
+.logo-admin h4 {
+    font-family: var(--fuente-logotipo);
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+.etiqueta-seccion {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-texto-opaco);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.nav-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.item-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-texto-opaco);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: all var(--transicion-base);
+}
+
+.item-nav svg,
+.item-nav i {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.item-nav.activo,
+.item-nav:hover {
+    color: var(--color-texto-blanco);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.item-nav-desplegable {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+}
+
+.item-nav-desplegable .icono-desplegable {
+    margin-left: auto;
+    width: 14px !important;
+    height: 14px !important;
+    transition: transform var(--transicion-base);
+}
+
+.item-nav-desplegable.desplegado .icono-desplegable {
+    transform: rotate(180deg);
+}
+
+.submenu-sidebar {
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    padding-left: 14px;
+    margin-bottom: 6px;
+}
+
+.submenu-sidebar.abierto {
+    display: flex;
+}
+
+.sub-item {
+    font-size: 13px;
+    padding: 8px 12px;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 20px;
+}
+
+.sidebar-footer a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-texto-opaco);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: all var(--transicion-base);
+}
+
+.sidebar-footer a svg,
+.sidebar-footer a i {
+    width: 18px;
+    height: 18px;
+}
+
+.sidebar-footer a:hover {
+    color: var(--color-texto-blanco);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================
+   PERFIL DENTRO DEL SIDEBAR — solo mobile.
+   En desktop el perfil ya vive en el navbar, así que esto
+   permanece oculto hasta el breakpoint de 800px.
+   ============================================ */
+.sidebar-footer-movil {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 16px;
+}
+
+.perfil-sidebar-movil {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 12px 14px;
+}
+
+.perfil-sidebar-movil .nombre-admin {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-texto-blanco);
+}
+
+.sidebar-footer-movil a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-texto-opaco);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: all var(--transicion-base);
+}
+
+.sidebar-footer-movil a svg,
+.sidebar-footer-movil a i {
+    width: 18px;
+    height: 18px;
+}
+
+.sidebar-footer-movil a:hover {
+    color: var(--color-texto-blanco);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-footer-movil a.text-danger {
+    color: #ff7676;
+}
+
+/* Refuerzo: garantiza que este bloque quede oculto en desktop
+   incluso si algún otro estilo llegara a pisar la regla base de arriba. */
+@media (min-width: 801px) {
+    .sidebar-footer-movil {
+        display: none !important;
+    }
+}
+
+/* El contenido se corre a la derecha del sidebar fijo */
+.contenedor-dashboard {
+    margin-left: 260px;
+    margin-top: 75px;
+}
+
+.dashboard-container {
+    padding: 40px 50px;
+}
+
+@media (max-width: 800px) {
+    /* Antes: barra horizontal con overflow-x que cortaba "Inventario" sin ninguna
+       pista visual de que había más contenido a la derecha. Ahora: panel vertical
+       oculto por defecto (fuera de pantalla a la izquierda) que se desliza al
+       togglear el botón hamburguesa del navbar. */
+    .sidebar-admin {
+        top: 82px; /* justo debajo del navbar-admin, que mide 82px de alto */
+        left: 0;
+        width: 260px;
+        height: calc(100vh - 82px);
+        flex-direction: column;
+        overflow-x: visible;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 160; /* por encima del overlay (150), aunque por debajo del navbar (200) ya que no se superponen */
+    }
+
+    .sidebar-admin.sidebar-abierto {
+        transform: translateX(0);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .nav-sidebar {
+        flex-direction: column;
+    }
+
+    .contenedor-dashboard {
+        margin-left: 0;
+    }
+
+    /* Fondo oscuro detrás del panel, para cerrar tocando afuera.
+       Empieza debajo del navbar para que este siga visible e interactivo
+       (el dropdown de perfil, por ejemplo) mientras el sidebar está abierto. */
+    .overlay-sidebar-admin {
+        display: none;
+        position: fixed;
+        top: 82px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.55);
+        z-index: 150; /* entre el navbar (200) y el sidebar (necesita quedar debajo del panel) */
+    }
+
+    .overlay-sidebar-admin.visible {
+        display: block;
+    }
+
+    body.menu-bloqueado {
+        overflow: hidden;
+    }
+
+    .sidebar-footer-movil {
+        display: flex;
+    }
+}

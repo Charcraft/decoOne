@@ -1,0 +1,423 @@
+.btn-hamburguesa {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    color: #fff;
+    font-size: 22px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-hamburguesa:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@media screen and (max-width: 768px) {
+
+    .clienteGeneral {
+        padding-top: 15px !important; 
+        display: flex !important;
+        align-items: flex-start !important; 
+    }
+
+    .clienteGeneral .logoDeco {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .clienteGeneral .logoDeco img {
+        width: 45px !important; 
+        height: auto !important;
+    }
+
+    .clienteGeneral .logoDeco h4 {
+        font-size: 16px !important;
+        line-height: 1.2 !important;
+        margin-left: 10px !important; 
+    }
+
+    .btn-hamburguesa {
+        display: block;
+        position: absolute;
+        top: 35px;
+        right: 20px;
+        z-index: 2001;
+    }
+
+    .barraMenu,
+    .registroMenu {
+        display: none;
+    }
+
+    .overlay-menu-movil {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+    }
+
+    .overlay-menu-movil.visible {
+        display: block;
+    }
+
+    .clienteGeneral.menu-abierto,
+    .clienteGeneral.menu-abierto li{
+        font-family: var(--fuente-principal);
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+
+    .clienteGeneral.menu-abierto {
+        position: fixed !important;
+        top: 0;
+        right: 0;
+        width: 260px;
+        max-width: 80vw;
+        height: 100vh;
+        background-color: rgb(15, 53, 62);
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 40px 20px 400px !important;
+        box-sizing: border-box;
+        z-index: 9999 !important;
+        overflow-y: auto; 
+        align-items: flex-start;
+    }
+    .clienteGeneral.menu-abierto .grupo-superior-menu { 
+        display: flex;
+        flex-direction: column;
+    }
+
+    .clienteGeneral.menu-abierto .logoDeco {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px !important;
+    }
+
+    .clienteGeneral.menu-abierto .logoDeco img {
+        width: 40px !important;
+        height: auto !important;
+    }
+
+    .clienteGeneral.menu-abierto .logoDeco h4 {
+        font-size: 15px !important;
+        line-height: 1.2;
+        margin-right: auto !important;
+    }
+
+    .clienteGeneral.menu-abierto .barraMenu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 12px !important;
+        margin: 25px px 0 0 !important;
+        text-align: left;
+        align-items: flex-start
+    }
+
+    .clienteGeneral.menu-abierto .registroMenu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+        padding-top: 20px !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        flex-shrink: 0; 
+    }
+
+    .subMenu,
+    .desplegableRegistro {
+        position: static !important;
+        background: transparent;
+        box-shadow: none;
+        border: var(--cristal-borde)    ;
+        padding-left: 15px;
+        margin-top: 10px;
+    }
+
+    .btn-cerrar-menu-movil {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 6px;
+        color: #fff;
+        font-size: 18px;
+        width: 34px;
+        height: 34px;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    body.menu-bloqueado {
+        overflow: hidden;
+    }
+
+    .encabezado-servicios { 
+        display: flex !important;
+        flex-wrap: wrap !important; 
+        justify-content: space-between !important;
+        align-items: flex-end !important;
+        margin-bottom: 25px !important;
+        padding-right: 15px !important; 
+    }
+
+    .texto-chico-servicios { 
+        width: 100% !important; /* Lo obliga a usar su propio renglón */
+        display: block !important;
+        margin-bottom: 5px !important;
+    }
+
+    /* 3. El título principal "NUESTROS SERVICIOS" */
+    .titulo-servicios { 
+        width: auto !important;
+        max-width: 70% !important; 
+        font-size: 28px !important; 
+        line-height: 1.1 !important;
+        margin: 0 !important;
+    }
+
+    /* 4. El enlace "Ver todos ->" apuntando a tu clase real */
+    .verTodosIndex { 
+        transform: none !important; /* Limpiamos cualquier traslación previa */
+        white-space: nowrap !important; /* Mantiene la flecha pegada al texto */
+        margin-bottom: 5px !important; 
+    }
+
+
+
+
+}
+
+
+@media screen and (max-width: 768px) {
+    
+    .servicios { 
+        display: flex !important;
+        flex-wrap: nowrap !important; 
+        overflow-x: auto !important;  
+        overflow-y: hidden !important;
+        gap: 10px !important;
+        padding-bottom: 20px !important; 
+        padding: 20px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch; 
+        scrollbar-width: none; 
+    }
+
+    .servicios ::-webkit-scrollbar {
+        display: none;
+    }
+
+    .contSericioBoda, .tarjetaXV, .tarjetaFInfantiles { 
+        flex: 0 0 85% !important; 
+        scroll-snap-align: center !important; 
+        max-width: 95% !important; 
+    }
+
+    .verTodosIndex { 
+        display: block !important;
+        text-align: right !important;
+        transform: translateY(-35px) !important; 
+        position: relative;
+        z-index: 10;
+        margin-bottom: -20px !important; 
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .cuadrosServicios {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        padding: 30px 3% 30px 3% !important;
+    }
+
+    .cuadroBodas {
+        display: grid !important;
+        grid-template-columns: 100px 1fr !important;
+        grid-template-rows: auto !important;
+        align-items: center !important;
+        gap: 5px 15px !important;
+
+        padding: 0 !important;           
+        overflow: hidden !important;     
+        border-radius: 16px !important;  
+    }
+
+    .cuadroBodas img {
+        grid-column: 1 !important;
+        grid-row: 1 / 4 !important;
+
+        width: 100px !important;
+        height: 100% !important;         /* en vez de una altura fija en px */
+        min-height: 100% !important;
+        object-fit: cover !important;
+
+        border-radius: 0 !important;     /* el recorte lo hace el overflow:hidden de la tarjeta */
+        margin: 0 !important;
+    }
+
+    .cuadroBodas h4 {
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        margin: 0 !important;
+        padding: 12px 15px 0 0 !important;
+    }
+
+    .cuadroBodas p {
+        grid-column: 2 !important;
+        grid-row: 2 !important;
+        margin: 0 !important;
+        padding: 0 15px 0 0 !important;
+        font-size: 0.85rem !important;
+    }
+
+    .cuadroBodas a {
+        grid-column: 2 !important;
+        grid-row: 3 !important;
+        margin: 0 !important;
+        padding: 0 15px 12px 0 !important;
+        text-decoration: none;
+    }
+}
+
+@media (max-width: 768px) {
+    /* 1. Corregimos el contenedor para que no se desborde en móviles */
+    .contenedor-tarjetas {
+        width: 100%; 
+        grid-template-columns: 1fr; /* Una tarjeta por fila */
+        padding: 0 5%; /* Margen lateral para que no pegue en los bordes */
+        box-sizing: border-box;
+    }
+
+    /* 2. Convertimos la tarjeta en un grid horizontal */
+    .tarjeta-salon {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        padding: 30px 3% 30px 3% !important;
+    }
+
+    /* 3. Ajustamos la imagen a la izquierda */
+    .tarjeta-salon img {
+        grid-column: 1;
+        grid-row: 1 / 10; /* TRUCO: Fuerza a la imagen a abarcar todas las filas de texto */
+        width: 100%;
+        height: 150px;
+        margin-top: -15px;
+        margin-bottom: 10px;
+        border-radius: 8px; /* Le da un toque más suave al recorte */
+    }
+
+    /* 4. Colocamos todos los textos en la columna derecha y quitamos el padding gigante */
+    .tarjeta-salon h3,
+    .tarjeta-salon p {
+        grid-column: 2;
+        padding: 0; 
+        margin-bottom: 6px;
+    }
+
+    .tarjeta-salon h3 {
+        font-size: 16px;
+        margin-top: 5px;
+    }
+
+    .tarjeta-salon p {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+    
+    .tarjeta-salon p:last-child {
+        margin-bottom: 0;
+    }
+}
+@media (max-width: 768px) {
+    /* 1. Ocultamos la cabecera tradicional de la tabla */
+    thead {
+        display: none;
+    }
+
+    /* 2. Convertimos la tabla y sus elementos en bloques */
+    table, tbody, tr, td {
+        display: block;
+        width: 100%;
+    }
+
+    /* 3. Transformamos cada fila (tr) en una tarjeta minimalista */
+    tr {
+        background: rgba(255, 255, 255, 0.03); /* Fondo sutil para separar elementos */
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radio-tarjeta, 8px);
+        margin-bottom: 12px;
+        padding: 16px;
+        
+        /* Magia con Grid: Creamos un diseño de 2 columnas y 2 filas dentro de la tarjeta */
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "tipo cantidad"
+            "fecha ref";
+        gap: 10px;
+    }
+
+    /* 4. Limpiamos los estilos por defecto de las celdas */
+    td {
+        padding: 0 !important;
+        border: none !important;
+        text-align: left;
+    }
+
+    /* --- ASIGNACIÓN DE DATOS A LA TARJETA --- */
+    
+    /* Celda 1: FECHA (Abajo a la izquierda) */
+    td:nth-child(1) {
+        grid-area: fecha;
+        font-size: 12px;
+        color: var(--color-texto-opaco);
+        align-self: center;
+    }
+
+    /* Celda 2: NO. REF (Abajo a la derecha) */
+    td:nth-child(2) {
+        grid-area: ref;
+        font-size: 12px;
+        color: var(--color-texto-opaco);
+        text-align: right;
+    }
+    td:nth-child(2)::before {
+        content: "Ref: "; /* Agrega contexto visual sin tocar el HTML */
+    }
+
+    /* Celda 3: TIPO MOBILIARIO (Arriba a la izquierda, título principal) */
+    td:nth-child(3) {
+        grid-area: tipo;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--color-texto-blanco);
+        display: flex;
+        align-items: center;
+        gap: 8px; /* Espacio por si tiene la etiqueta "sin stock" al lado */
+    }
+
+    /* Celda 4: CANTIDAD (Arriba a la derecha, número destacado) */
+    td:nth-child(4) {
+        grid-area: cantidad;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: right;
+        color: rgba(70, 196, 190, 1); /* El color verde de tu tema */
+    }
+    td:nth-child(4)::after {
+        content: " unds."; /* Aclara de qué es el número */
+        font-size: 11px;
+        font-weight: 400;
+        color: var(--color-texto-opaco);
+    }
+}

@@ -1,0 +1,80 @@
+.gallery {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    height: 70vh;
+    margin: 40px 0;
+    overflow: hidden;
+    background-color: var(--color-fondo-tarjetas); 
+    gap: 10px;
+}
+
+.gallery img {
+    width: 5%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    filter: brightness(0.25) grayscale(0.6);
+    transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1), filter 0.7s ease;
+}
+
+.gallery img:last-child {   
+    border-right: none;
+}
+
+.gallery img.activa {
+    width: 90%;
+    filter: brightness(1) grayscale(0);
+    cursor: default;
+}
+
+.gallery img:not(.activa):hover {
+    filter: brightness(0.5) grayscale(0.2);
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE
+   Convertimos la galería de "expandir al click" (pensada para hover)
+   a un slider de scroll horizontal con snap, que funciona con el dedo
+   sin necesitar hover ni la clase .activa
+   ============================================ */
+@media screen and (max-width: 768px) {
+
+    .gallery {
+        height: 45vh;
+        min-height: 280px;
+        margin: 25px 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 12px;
+        padding: 0 8px; /* deja ver un poco del borde para indicar que hay más slides */
+    }
+
+    /* Ocultamos la barra de scroll pero dejamos el gesto de swipe funcional */
+    .gallery::-webkit-scrollbar {
+        display: none;
+    }
+    .gallery {
+        scrollbar-width: none;
+    }
+
+    .gallery img {
+        width: 85%;
+        flex: 0 0 85%; /* evita que flex las encoja/estire, cada una ocupa 85% del ancho */
+        scroll-snap-align: center;
+        filter: brightness(1) grayscale(0); /* en mobile todas se ven nítidas, no solo la "activa" */
+        cursor: default;
+        transition: none; /* la transición de ancho ya no aplica, el swipe la reemplaza */
+        border-radius: 20px;
+    }
+
+    .gallery img.activa {
+        width: 85%; /* misma medida: en mobile no expandimos, solo centramos con el snap */
+    }
+
+    .gallery img:not(.activa):hover {
+        filter: brightness(1) grayscale(0); /* anulamos el hover, no aplica en touch */
+    }
+}

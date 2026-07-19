@@ -1,0 +1,147 @@
+.hero {
+    background-image: linear-gradient(rgba(15, 53, 62, 0.4), rgba(29, 87, 103, 0.6)), var(--image-hero);
+    background-size: cover;
+    background-position: center;
+    height: 65vh;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: max(5%, calc((100vw - 1200px) / 2));
+    width: 100%;
+}
+
+.hero-content h1 {
+    font-family: var(--fuente-titulos);
+    font-size: 76px;
+    font-weight: 700;
+    color: var(--color-texto-blanco);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    margin-bottom: 5px;
+}
+
+.hero-content p {
+    font-family: var(--fuente-principal);
+    font-size: 22px;
+    color: var(--color-texto-blanco);
+    opacity: 0.9;
+}
+
+.description {
+    background-color: var(--color-claro); /* PENDIENTE: confirmar el color real deseado */
+    padding: 80px max(5%, calc((100vw - 1200px) / 2)) 40px;
+    width: 100%;
+}
+
+.desc-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.desc-header hr {
+    width: 45px;
+    border: none;
+    border-top: 1px solid var(--color-texto-opaco);
+}
+
+.desc-header h2 {
+    font-family: var(--fuente-principal);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-texto-opaco);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.desc-body p {
+    font-family: var(--fuente-principal);
+    font-size: 16px;
+    color: var(--color-texto-blanco);
+    line-height: 1.8;
+    max-width: 800px;
+    margin-left: 60px;
+}
+
+.cta {
+    background-color: var(--color-claro); /* PENDIENTE: mismo caso que arriba */
+    text-align: center;
+    padding: 40px 5% 120px;
+    width: 100%;
+}
+
+.cta h2 {
+    font-family: var(--fuente-titulos);
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--color-texto-blanco);
+    margin-bottom: 12px;
+}
+
+.cta p {
+    font-family: var(--fuente-principal);
+    font-size: 18px;
+    color: var(--color-texto-opaco);
+    margin-bottom: 40px;
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE
+   ============================================ */
+@media screen and (max-width: 768px) {
+
+    /* --- HERO --- */
+    .hero {
+        height: 55vh;
+        min-height: 380px;
+        padding-left: 6%;
+        padding-right: 6%;
+    }
+
+    .hero-content h1 {
+        font-size: 42px;
+        letter-spacing: 1px;
+        line-height: 1.05;
+        margin-bottom: 8px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    /* --- DESCRIPCION --- */
+    .description {
+        padding: 40px 6% 30px;
+    }
+
+    .desc-header {
+        margin-bottom: 15px;
+    }
+
+    .desc-body p {
+        font-size: 15px;
+        line-height: 1.7;
+        max-width: 100%;
+        margin-left: 0; /* antes 60px: empujaba el texto fuera de vista en pantallas angostas */
+    }
+
+    /* --- CTA --- */
+    .cta {
+        padding: 30px 6% 60px;
+    }
+
+    .cta h2 {
+        font-size: 32px;
+        line-height: 1.1;
+        margin-bottom: 10px;
+        word-wrap: break-word; /* evita que palabras largas como "CONVENCIMOS" se corten */
+    }
+
+    .cta p {
+        font-size: 15px;
+        margin-bottom: 25px;
+    }
+}

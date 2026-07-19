@@ -1,0 +1,555 @@
+.ContenedorSesion {
+    width: 100%;
+    background: rgb(54, 98, 110);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radio-tarjeta);
+    padding: 35px 30px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.tarjetaEvento,
+.tarjetaEquipo,
+.tarjetaCreatividad {
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    box-shadow: var(--cristal-sombra);
+    border-radius: var(--radio-tarjeta);
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform var(--transicion-base), box-shadow var(--transicion-base), background var(--transicion-base);
+}
+
+.tarjetaEvento img,
+.tarjetaEquipo img,
+.tarjetaCreatividad img {
+    height: 40px;
+    width: 40px;
+    margin-bottom: 20px;
+
+}
+
+.tarjetaEvento:hover,
+.tarjetaEquipo:hover,
+.tarjetaCreatividad:hover {
+    transform: translateY(-5px);
+    background: var(--cristal-fondo-hover);
+    box-shadow: 0 0 15px rgba(50, 140, 165, 0.2);
+}
+
+.tarjetaEvento h3, .tarjetaEquipo h3, .tarjetaCreatividad h3 {
+    font-family: var(--fuente-titulos);
+    font-weight: bold;
+    font-size: medium;
+}
+
+.tarjetaEvento p, .tarjetaEquipo p, .tarjetaCreatividad p {
+    font-family: var(--fuente-principal);
+    font-weight: 500;
+    font-size: medium;
+}
+
+.tarjetasServicios {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    clear: both;
+    justify-items: center;
+}
+
+.contSericioBoda,
+.tarjetaXV,
+.tarjetaFInfantiles {
+    background-color: #2a2a2a;
+    height: 350px;
+    width: 350px;
+    border-radius: var(--radio-tarjeta);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+}
+
+.contSericioBoda:hover,
+.tarjetaXV:hover,
+.tarjetaFInfantiles:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.contSericioBoda img,
+.tarjetaXV img,
+.tarjetaFInfantiles img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    object-position: center;
+    z-index: 0;
+}
+
+.contSericioBoda::after,
+.tarjetaXV::after,
+.tarjetaFInfantiles::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    z-index: 1;
+}
+
+.contSericioBoda h3, .tarjetaXV h3, .tarjetaFInfantiles h3 {
+    font-size: 24px;
+    font-weight: 600;
+    z-index: 2;
+    position: relative; 
+    color: var(--color-texto-blanco); 
+}
+
+.contSericioBoda a, .tarjetaXV a, .tarjetaFInfantiles a {
+    font-size: 14px;
+    z-index: 2;
+    position: relative;
+    margin-top: 5px;
+    color: var(--color-texto-blanco);
+}
+
+.cuadrosServicios {
+    background-color: var(--color-fondo-titulos);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 60px max(5%, calc((100vw - 1200px) / 2)) 120px;
+    width: 100%;
+}
+
+.cuadroBodas{
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: var(--cristal-borde);
+    box-shadow: var(--cristal-sombra);
+    border-radius: var(--radio-tarjeta);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform var(--transicion-base), box-shadow var(--transicion-base), background-color var(--transicion-base);
+}
+
+.cuadroBodas:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.cuadrosServicios img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    margin-bottom: 25px;
+}
+
+.cuadrosServicios h4 {
+    font-family: var(--fuente-principal);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--color-texto-blanco);
+    padding: 0 30px;
+}
+
+.cuadrosServicios p {
+    color: var(--color-texto-opaco);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    padding: 0 30px;
+    flex-grow: 1;
+}
+
+.cuadrosServicios a {
+    font-family: var(--fuente-principal);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-texto-blanco);
+    opacity: 0.8;
+    align-self: flex-start;
+    padding: 0 30px 35px 30px;
+}
+
+.cuadrosServicios a:hover {
+    opacity: 1;
+}
+
+.NumDecoOne,
+.correoDecoOne,
+.ubicacionDecoOne,
+.horarioDecoOne,
+.formularioCliente {
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    box-shadow: var(--cristal-sombra);
+    border-radius: var(--radio-tarjeta);
+}
+
+.NumDecoOne,
+.correoDecoOne,
+.ubicacionDecoOne,
+.horarioDecoOne {
+    padding: 20px 25px;
+    display: grid;
+    grid-template-columns: auto 1fr; 
+    column-gap: 16px; 
+    row-gap: 4px; 
+    align-items: center;
+}
+.NumDecoOne li,
+.correoDecoOne li,
+.ubicacionDecoOne li,
+.horarioDecoOne li {
+    grid-column: 1;
+    grid-row: 1 / 3; 
+    list-style: none;
+    margin: 0;
+    display: flex;
+}
+
+.NumDecoOne h6,
+.correoDecoOne h6,
+.ubicacionDecoOne h6,
+.horarioDecoOne h6 {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    align-self: end; 
+}
+
+.NumDecoOne p,
+.correoDecoOne p,
+.ubicacionDecoOne p,
+.horarioDecoOne p {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+    align-self: start;
+    justify-self: start;
+    text-align: left;
+}
+
+.formularioCliente {
+    padding: 35px;
+}
+
+.formularioCliente h3 {
+    font-family: var(--fuente-principal);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.contenedorInfoDecoOne h6,
+.redesDeco h6 {
+    font-family: var(--fuente-principal);
+    font-size: 11px;
+    color: var(--color-texto-opaco);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.contenedorInfoDecoOne p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-texto-blanco);
+}
+
+.redesDeco {
+    margin-top: 15px;
+}
+
+.botonesRedes {
+    display: flex;
+    gap: 15px;
+}
+
+.tarjetaEventoCliente {
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    box-shadow: var(--cristal-sombra);
+    border-radius: var(--radio-tarjeta);
+    transition: transform var(--transicion-base), box-shadow var(--transicion-base), background var(--transicion-base);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.tarjetaEventoCliente:hover {
+    transform: translateY(-5px);
+    background: var(--cristal-fondo-hover);
+    box-shadow: 0 0 15px rgba(50, 140, 165, 0.2);
+}
+
+.tarjetaEventoCliente .contenedorImagenEvento {
+    position: relative;
+    width: 100%;
+    height: 180px;
+}
+
+.tarjetaEventoCliente .imagenEvento {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.tarjetaEventoCliente .infoEvento {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.tarjetaEventoCliente h3 {
+    font-family: var(--fuente-titulos);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-texto-blanco);
+    margin-bottom: 12px;
+}
+
+.detalleEvento {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--color-texto-opaco);
+    margin-bottom: 8px;
+}
+
+.detalleEvento svg,
+.detalleEvento i {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.tarjetaEventoCliente .verDetalles {
+    margin-top: auto; 
+    align-self: flex-end; 
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-texto-blanco);
+    opacity: 0.6;
+    transition: opacity var(--transicion-base);
+}
+
+.tarjetaEventoCliente .verDetalles:hover {
+    opacity: 1;
+}
+
+.estadoEvento {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 1;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.estadoEvento.completado {
+    background-color: rgba(75, 181, 67, 0.9);
+    color: #ffffff;
+}
+
+.estadoEvento.proximo {
+    background-color: rgba(70, 196, 190, 0.9);
+    color: #0f353e;
+}
+
+.estadoEvento.proceso {
+    background-color: rgba(243, 156, 18, 0.9);
+    color: #1a202c;
+}
+
+.tarjeta-metrica {
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    border-radius: var(--radio-tarjeta);
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.icono-metrica {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: rgba(70, 196, 190, 1);
+}
+
+.icono-metrica svg,
+.icono-metrica i {
+    width: 20px;
+    height: 20px;
+}
+
+.tarjeta-metrica h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 2px 0;
+}
+
+.tarjeta-metrica p {
+    color: var(--color-texto-opaco);
+    font-size: 13px;
+    margin: 0;
+}
+
+.contenedor-tarjetas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    width: 1200px;
+    margin-top: 40px;
+}
+
+.tarjeta-salon {
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    border: var(--cristal-borde);
+    border-radius: var(--radio-tarjeta);
+    overflow: hidden;
+    transition: transform var(--transicion-base), box-shadow var(--transicion-base); 
+}
+
+.tarjeta-salon:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.tarjeta-salon img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    margin-bottom: 25px;
+}
+.tarjeta-salon h3 {
+    font-family: var(--fuente-titulos);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--color-texto-blanco);
+    padding: 0 30px;
+}
+
+.tarjeta-salon p {
+    color: var(--color-texto-opaco);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    padding: 0 30px;
+    flex-grow: 1;
+}
+.estadoEvento.rechazado {
+    background-color: rgba(255, 118, 118, 0.85);
+    color: #ffffff;
+}
+
+.estadoEvento.pendiente {
+    background-color: rgba(255, 193, 7, 0.9);
+    color: #1a202c;
+}
+
+.estadoEvento.cancelado {
+    background-color: rgba(150, 150, 150, 0.9);
+    color: #1a202c;
+}
+
+@media screen and (max-width: 768px) {
+    .contenedorCaracteristicas {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 15px !important;
+        padding: 0 15px !important;
+    }
+
+    .tarjetaEvento,
+    .tarjetaEquipo,
+    .tarjetaCreatividad {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 15px !important;
+        padding: 15px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .tarjetaEvento img,
+    .tarjetaEquipo img,
+    .tarjetaCreatividad img {
+        width: 45px !important;
+        height: 45px !important;
+        margin: 0 !important;
+        flex-shrink: 0; 
+    }
+
+    .tarjetaEvento .texto-tarjeta,
+    .tarjetaEquipo .texto-tarjeta,
+    .tarjetaCreatividad .texto-tarjeta {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;  
+        flex: 1;
+    }
+
+    .tarjetaEvento h3,
+    .tarjetaEquipo h3,
+    .tarjetaCreatividad h3 {
+        margin: 0 0 5px 0 !important;
+        line-height: 1.2 !important;
+        font-size: 15px !important;
+    }
+
+    .tarjetaEvento p,
+    .tarjetaEquipo p,
+    .tarjetaCreatividad p {
+        margin: 0 !important;
+        font-size: 13px !important;
+        line-height: 1.4;
+    }
+}

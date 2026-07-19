@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Eventos | Deco-One</title>
+    <link rel="stylesheet" href="../../css/base/variables.css">
+    <link rel="stylesheet" href="../../css/base/global.css">
+    <link rel="stylesheet" href="../../css/components/sidebar.css">
+    <link rel="stylesheet" href="../../css/components/navbarAdmin.css">
+    <link rel="stylesheet" href="../../css/components/panel-admin.css">
+    <link rel="stylesheet" href="../../css/components/modal.css">
+    <link rel="stylesheet" href="../../css/components/botones.css">
+    <link rel="stylesheet" href="../../css/components/badges.css">
+    <link rel="stylesheet" href="../../css/components/navMes.css">
+    <link rel="stylesheet" href="../../css/views/historial.css">
+    <link rel="stylesheet" href="../../css/base/responsive.css">
+
+</head>
+<body class="body-admin">
+    <div id="navbar-placeholder"></div>
+
+    <div class="contenedor-dashboard">
+        <div id="sidebar-placeholder"></div>
+
+        <main class="dashboard-container">
+        <section class="titulo-historial">
+                <div>
+                    <h2>Historial de eventos</h2>
+                    <div class="controles-historial">
+                        <select id="filtroFechaHistorial" class="select-filtro-historial">
+                            <option value="defecto">Por defecto (Mes a mes)</option>
+                            <option value="hoy">Hoy</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mes (Completo)</option>
+                        </select>
+                        
+                        <div class="navegacion-mes" id="contNavegacionMes">
+                            <button type="button" id="botonMesAnterior"><i data-lucide="chevron-left"></i></button>
+                            <span id="etiquetaMesHistorial">—</span>
+                            <button type="button" id="botonMesSiguiente"><i data-lucide="chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="boton-agregar-evento" id="botonAbrirModalEvento">
+                    <i data-lucide="plus"></i> Agregar
+                </button>
+            </section>
+
+            <div class="separador-historial"></div>
+
+            <section class="grid-historial" id="gridHistorial">
+                <!-- JS genera aquí cada tarjeta -->
+            </section>
+        </main>
+    </div>
+
+    <!-- Ventana emergente para agregar nuevo evento de manera manual sin aceptar solicitudes -->
+<div id="modalNuevoEvento" class="modal-overlay oculto">
+        <div class="modal-contenedor">
+            <div class="modal-cabecera">
+                <div class="modal-titulo">
+                    <i data-lucide="calendar-plus"></i>
+                    <h3>AGREGAR EVENTO</h3>
+                </div>
+                <button type="button" class="boton-cerrar-modal" id="botonCerrarModal">&times;</button>
+            </div>
+            
+            <form id="formularioNuevoEvento" class="modal-formulario">
+                <div class="campo-formulario">
+                    <label>NOMBRE DEL EVENTO / CLIENTE</label>
+                    <input type="text" id="inputNombreEvento" placeholder="Ej: Boda Familia Gómez o Baby Shower García" required>
+                </div>
+
+                <div class="fila-modal">
+                    <div class="campo-formulario">
+                        <label>TIPO DE EVENTO</label>
+                        <input type="text" id="inputTipoEvento" placeholder="Ej: Boda, XV Años, Infantil" required>
+                    </div>
+                    <div class="campo-formulario">
+                        <label>FECHA DEL EVENTO</label>
+                        <input type="date" id="inputFechaEvento" required>
+                    </div>
+                </div>
+
+                <div class="fila-modal">
+                    <div class="campo-formulario">
+                        <label>HORA DE INICIO</label>
+                        <input type="time" id="inputHoraInicio" required>
+                    </div>
+                    <div class="campo-formulario">
+                        <label>HORA DE RECOGER MATERIAL</label>
+                        <input type="time" id="inputHoraRecoger" required>
+                    </div>
+                </div>
+
+                <div class="campo-formulario">
+                    <label>LUGAR / SALÓN</label>
+                    <select id="inputSalonEvento" required>
+                        <option value="" disabled selected>Selecciona una ubicación</option>
+                        <option value="Salón Elegante">Salón Elegante</option>
+                        <option value="Salón Moderno">Salón Moderno</option>
+                        <option value="Por definir">Por definir</option>
+                    </select>
+                </div>
+                <div class="campo-formulario">
+                    <label>ESTADO DEL EVENTO (OPCIONAL)</label>
+                    <select id="inputEstadoManual">
+                        <option value="auto" selected>Automático (Por fecha y hora)</option>
+                        <option value="curso">Forzar: En Curso</option>
+                        <option value="terminado">Forzar: Terminado</option>
+                    </select>
+                </div>
+
+                <div class="campo-formulario">
+                    <label>MATERIALES POR USAR (SEPARADOS POR COMAS)</label>
+                    <textarea id="inputMateriales" placeholder="Ej: Globos rosa, Letras 'BABY', Mesa de dulces..."></textarea>
+                </div>
+
+                <div class="modal-acciones">
+                    <button type="button" class="boton-secundario" id="botonCancelarModal">Cancelar</button>
+                    <button type="submit" class="boton-primario">Confirmar Registro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalVerDetalles" class="modal-overlay oculto">
+        <div class="modal-contenedor">
+            <div class="modal-cabecera">
+                <div class="modal-titulo">
+                    <i data-lucide="info"></i>
+                    <h3>Detalles del Evento</h3>
+                </div>
+                <button type="button" class="boton-cerrar-modal" id="botonCerrarDetalles">&times;</button>
+            </div>
+            
+            <div class="modal-cuerpo-detalles">
+                <div class="campo-detalle">
+                    <label>NOMBRE DEL EVENTO / CLIENTE</label>
+                    <p id="detNombre">—</p>
+                </div>
+                <div class="fila-modal">
+                    <div class="campo-detalle">
+                        <label>TIPO DE EVENTO</label>
+                        <p id="detTipo">—</p>
+                    </div>
+                    <div class="campo-detalle">
+                        <label>FECHA</label>
+                        <p id="detFecha">—</p>
+                    </div>
+                </div>
+                <div class="fila-modal">
+                    <div class="campo-detalle">
+                        <label>HORA INICIO</label>
+                        <p id="detHoraInicio">—</p>
+                    </div>
+                    <div class="campo-detalle">
+                        <label>HORA RECOGER MATERIAL</label>
+                        <p id="detHoraRecoger">—</p>
+                    </div>
+                </div>
+                <div class="campo-detalle">
+                    <label>LUGAR / SALÓN</label>
+                    <p id="detSalon">—</p>
+                </div>
+                <div class="campo-detalle">
+                    <label>SOLICITANTE</label>
+                    <p id="detSolicitante">—</p>
+                </div>
+                <div class="campo-detalle">
+                    <label>MATERIALES A UTILIZAR</label>
+                    <p id="detMateriales" style="white-space: pre-line;">—</p>
+                </div>
+                <div class="modal-acciones" style="margin-top: 1.5rem;">
+                    <button type="button" class="boton-primario" id="botonCerrarDetallesAceptar">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../../js/core/localStorage.js"></script>
+    <script src="../../js/components/navbar-admin.js"></script>
+    <script src="../../js/components/sidebar-admin.js"></script>
+    <script src="../../js/components/modal-evento.js"></script>
+    <script src="../../js/components/layout-loader.js"></script>
+    <script src="../../js/components/agendaSimulado.js"></script>
+    <script src="../../js/views/historial.js"></script>
+</body>
+</html>

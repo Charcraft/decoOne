@@ -1,0 +1,110 @@
+.titulosContacto {
+    background-color: var(--color-fondo-tarjetas);
+    padding: 80px max(5%, calc((100vw - 1200px) / 2)) 40px;
+    width: 100%;
+}
+
+.titulosContacto p {
+    font-size: 14px;
+    color: var(--color-texto-opaco);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.titulosContacto p::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background-color: var(--color-texto-opaco);
+}
+
+.titulosContacto h1 {
+    font-size: 48px;
+    font-family: var(--fuente-titulos);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.seccionContactos {
+    background-color: var(--color-fondo-titulos);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 0 max(5%, calc((100vw - 1200px) / 2)) 80px;
+    width: 100%;
+}
+
+.contenedorInfoDecoOne {
+    margin-top: 40px;
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contenedorinfoCliente {
+    margin-top: 40px;
+    flex: 1.5;
+    min-width: 350px;
+}
+
+.seccionFAQ {
+    padding: 40px max(5%, calc((100vw - 1200px) / 2)) 100px;
+    width: 100%;
+}
+
+.seccionFAQ h1 {
+    font-family: var(--fuente-titulos);
+    font-size: 40px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+@media screen and (max-width: 768px) {
+
+    .titulosContacto {
+        padding: 30px 6% 25px;
+    }
+
+    .titulosContacto p {
+        font-size: 12px;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .titulosContacto p::before {
+        width: 30px;
+    }
+
+    .titulosContacto h1 {
+        font-size: 32px;
+        line-height: 1.15;
+    }
+
+    .seccionContactos {
+        gap: 20px;
+        padding: 0 6% 40px;
+    }
+
+    .contenedorInfoDecoOne,
+    .contenedorinfoCliente {
+        margin-top: 20px;
+        min-width: 100%;
+    }
+
+    /* --- FAQ --- */
+    .seccionFAQ {
+        padding: 20px 6% 50px;
+    }
+
+    .seccionFAQ h1 {
+        font-size: 28px;
+        line-height: 1.15;
+        margin-bottom: 20px;
+    }
+}

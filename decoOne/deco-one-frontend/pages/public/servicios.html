@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios Deco-One</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&family=Montserrat:wght@400;600&family=Newsreader:opsz,wght@6..72,400;6..72,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/base/variables.css">
+    <link rel="stylesheet" href="../../css/base/global.css">
+    <link rel="stylesheet" href="../../css/components/navbar.css">
+    <link rel="stylesheet" href="../../css/components/tarjetas.css">
+    <link rel="stylesheet" href="../../css/components/botones.css">
+    <link rel="stylesheet" href="../../css/components/galeria.css">
+    <link rel="stylesheet" href="../../css/components/footer.css">
+    <link rel="stylesheet" href="../../css/views/servicios.css">
+    <link rel="stylesheet" href="../../css/base/animation.css">
+    <link rel="stylesheet" href="../../css/base/responsive.css">
+</head>
+<body>
+    <header class="seccion-hero">
+        <nav class="clienteGeneral">
+            <div class="logoDeco">
+                <img src="../../assets/img/logos/imagen_2026-06-13_190700068 1 (1).png" alt="Logo Deco-One">
+                <h4>DECO<br>ONE</h4>
+                <button class="btn-hamburguesa" id="btnMenuMovil">☰</button>
+            </div>
+
+            <div class="barraMenu">
+                <a href="../../index.html">Inicio</a>
+                <div class="desplegableServicios">
+                    <a href="servicios.html">Servicios</a>
+                    <ul class="subMenu">
+                        <li><a href="boda.html">Bodas</a></li>
+                        <li><a href="xv.html">XV años</a></li>
+                        <li><a href="infantil.html">F. Infantiles</a></li>
+                        <li><a href="servicios.html" class="textoPequeño">Ver todos</a></li>
+                    </ul>
+                </div>
+                <a href="faq.html">Contacto</a>
+            </div>
+            <div class="registroMenu">
+                <div id="sinRegistro">
+                    <a href="../auth/login.html" class="iconoUsuario">
+                        <img src="../../assets/icons/user.png" alt="IconoUsuario"><br>
+                        Registro / Entrar
+                    </a>
+                </div>
+                <div id="conRegistro" class="oculto">
+                    <div>
+                        <a href="servicios.html" id="iconoUsuario">
+                            <img src="../../assets/icons/user.png" alt="IconoUsuario"><br>
+                            <span id="nombreUsuarioMenu">Bienvenido</span>
+                        </a>
+                        <ul class="desplegableRegistro">
+                            <li class="item-cliente"><a href="../public/misEventos.html">Mis Eventos</a></li>
+                            <li class="item-decorador"><a href="#">Administrador</a></li>
+                            <li><a href="#" id="botonCerrarSesion" class="textoPequeño">Cerrar sesion</a></li>
+                        </ul>
+                    </div>
+                </div> 
+            </div>
+        </nav>
+    </header>
+    <section class="tituloServicios">
+        <p>Servicios</p>
+        <h1>NUESTROS SERVICIOS</h1>
+    </section>
+    <section class="cuadrosServicios">
+        <div class="cuadroBodas">
+            <img src="../../assets/img/eventos/servicios/BodaTarjeta.jpg" alt="Decoración de boda">
+            <h4>Bodas</h4>
+            <p>Hacemos realidad tus sueños con decoraciones personalizadas</p>
+            <a href="boda.html">Ver mas &rarr;</a>
+        </div>
+        <div class="cuadroBodas">
+            <img src="https://lh3.googleusercontent.com/pw/AP1GczO97aJLBlTncrCpcYKoakrQoKT-269s-DXOSmrULICbkTGgYvB50aVBEim16GrSHTd7-wfwT8z71fE0YzmvVPPgx_Pu38QamoQa9C715U2R0RtuBfMZtOOPSjwazQHqb0XfDsa-sRNx27A1uXOoS35T2Q=w1824-h1368-s-no-gm?authuser=0" alt="Decoración de fiesta infantil">
+            <h4>F. Infantiles</h4>
+            <p>Transformamos cualquier espacio en un lugar con magia y lleno de diversion</p>
+            <a href="infantil.html">Ver mas &rarr;</a>
+        </div>
+        <div class="cuadroBodas">
+            <img src="https://lh3.googleusercontent.com/pw/AP1GczMC-oJX5eNSROUHr5TiArSbBuv1U47Xb3oGHCJiOk4mHNwWeeUWvsSnBBje3QRpkTqc8WbApOVsx9d4HtV8RLRTI3_J3QKiiJNvgZfgK1jSG9ifKGKOn9pGQncTy6suUqd6nZGe05dKN0nBrHKy7rM3zQ=w1824-h1368-s-no-gm?authuser=0" alt="Decoración de XV años">
+            <h4>XV años</h4>
+            <p>El dia mas especial merece una decoracion especial</p>
+            <a href="xv.html">Ver mas &rarr;</a>
+        </div>
+        <div class="cuadroBodas">
+            <img src="https://lh3.googleusercontent.com/pw/AP1GczNcRmok5kK9IVInbVS49HF-3rr8Kz6yEHSRY11ytv36E_dZc04B3WjLcIMn1QyzY3IXt7O7sr8edyMzkIlmEOP3KimgwSQYU1x5g6TmfA4NMK5bJN426-lYwHbbra_A_aoFh-InZw0VyxQ2hOGdtGxUyg=w1824-h1368-s-no-gm?authuser=0" alt="Decoración de baby shower">
+            <h4>Baby Shower</h4>
+            <p>Para dar la llega a nuevos integrantes de la familia con decoraciones llenas de ternura.</p>
+            <a href="babyshower.html">Ver mas &rarr;</a>
+        </div>
+        <div class="cuadroBodas">
+            <img src="https://lh3.googleusercontent.com/pw/AP1GczOR4PdtAQX-1IcxpAJvg6Rb50MlI2qXcbKFyNFI0b4ePQYwMavucWLftIl0nqmRausYB1zpJtEdxXCQ-0-4-iDAAsh68KvePsRB65wqIU-iq-k_i13JOr14vy4jBOM3FKOe6o0uYHMaLQjySVg2h1affg=w1823-h1368-s-no-gm?authuser=0" alt="Decoración de baby shower">
+            <h4>Graduaciones</h4>
+            <p>Celebrando el camino recorrido</p>
+            <a href="bautizos.html">Ver mas &rarr;</a>
+        </div>
+    </section>
+    <footer>
+        <div class="generalFooter">
+            <div class="logoFooter">
+                <div class="logo">
+                    <img src="../../assets/img/logos/imagen_2026-06-13_190700068 1 (1).png" alt="logoDeco">
+                    <h4>DECO<br>ONE</h4>
+                </div>
+                <p>Transformamos espacios y creamos experiencias unicas para los momentos mas importantes de tu vida</p>
+            </div>
+            <div class="linksNavegacion">
+                <h4>NAVEGACION</h4>
+                <ul>
+                    <li><a href="../../index.html">Inicio</a></li>
+                    <li><a href="servicios.html">Servicios</a></li>
+                    <li><a href="faq.html">Contactanos</a></li>
+                </ul>
+            </div>
+            <div class="redesSociales">
+                <h4>SIGUENOS</h4>
+                <ul>
+                    <li><a href="#">@DecoOne.chis</a></li>
+                    <li><a href="#">@DecoOneChiapas</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script> 
+    <script src="../../js/core/localStorage.js"></script> 
+    <script src="../../js/core/anim.js"></script>
+    <script src="../../js/components/navbar.js"></script>
+</body>
+</html>

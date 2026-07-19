@@ -1,0 +1,64 @@
+.contenedor-notificaciones {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 9999;
+}
+
+.notificacion {
+    background: var(--cristal-fondo);
+    backdrop-filter: blur(var(--cristal-blur));
+    -webkit-backdrop-filter: blur(var(--cristal-blur));
+    color: #e2f1f5;
+    padding: 16px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 280px;
+    border-left: 5px solid transparent;
+    font-size: 0.9rem;
+    font-weight: 500;
+    /* Animación de entrada */
+    animation: deslizarEntrada 0.3s ease-out forwards;
+    opacity: 0;
+    transform: translateX(100%);
+}
+; 
+
+.notificacion.exito {
+    border-left-color: #46c4be;
+}
+
+.notificacion.exito i {
+    color: #46c4be;
+}
+
+.notificacion.error {
+    border-left-color: #ff7676;
+}
+
+.notificacion.error i {
+    color: #ff7676;
+}
+
+.notificacion.desaparecer {
+    animation: deslizarSalida 0.3s ease-in forwards;
+}
+
+@keyframes deslizarEntrada {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes deslizarSalida {
+    to {
+        opacity: 0;
+        transform: translateX(120%);
+    }
+}

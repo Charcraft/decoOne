@@ -1,0 +1,26 @@
+/* Navegación ◁ mes ▷ — idéntico en agenda.css, historial.css, solicitudes.css */
+.navegacion-mes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.navegacion-mes button {
+    background: none;
+    border: none;
+    color: var(--color-texto-opaco);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+}
+
+.navegacion-mes button:hover {
+    color: var(--color-texto-blanco);
+}
+
+.navegacion-mes span {
+    font-size: 13px;
+    color: var(--color-texto-opaco);
+}

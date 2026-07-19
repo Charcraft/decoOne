@@ -1,0 +1,59 @@
+.tituloServicios {
+    background-color: var(--color-fondo-tarjetas); 
+
+    padding: 60px max(5%, calc((100vw - 1200px) / 2)) 40px;
+    width: 100%; 
+}
+
+.tituloServicios p {
+    font-family: var(--fuente-principal);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: var(--color-texto-opaco);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tituloServicios p::before {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background-color: var(--color-texto-opaco);
+}
+
+.tituloServicios h1 {
+    font-family: var(--fuente-titulos);
+    font-size: 46px;
+    font-weight: 700;
+    color: var(--color-texto-blanco);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@media screen and (max-width: 768px) {
+
+    .tituloServicios {
+        padding: 40px 6% 40px;
+    }
+
+    .tituloServicios p {
+        font-size: 12px;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .tituloServicios p::before {
+        width: 30px;
+    }
+
+    .tituloServicios h1 {
+        font-size: 30px;
+        line-height: 1.15;
+        letter-spacing: 0.5px;
+    }
+}

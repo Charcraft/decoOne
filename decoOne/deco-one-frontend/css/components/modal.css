@@ -1,0 +1,130 @@
+/* Modal genérico del panel admin — antes duplicado en historial.css e inventario.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.oculto {
+    display: none !important;
+}
+
+.modal-contenedor {
+    background-color: #112a31;
+    border: 1px solid #1e3d46;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    color: #e2f1f5;
+}
+
+.modal-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #1e3d46;
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.modal-titulo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.modal-titulo h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.boton-cerrar-modal {
+    background: none;
+    border: none;
+    color: #8fa0a8;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.campo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.campo-formulario label {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: #8fa0a8;
+    font-weight: bold;
+}
+
+.campo-formulario input,
+#formularioNuevoEvento input,
+#formularioNuevoEvento select,
+#formularioNuevoEvento textarea {
+    background-color: #1a373f !important;
+    border: 1px solid #284e59 !important;
+    border-radius: 6px;
+    padding: 0.75rem;
+    color: #fff !important;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.campo-formulario input:focus,
+#formularioNuevoEvento input:focus,
+#formularioNuevoEvento select:focus,
+#formularioNuevoEvento textarea:focus {
+    border-color: #00bcd4 !important;
+}
+
+.fila-modal,
+.fila-formulario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.modal-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.campo-detalle {
+    margin-bottom: 1.25rem;
+}
+.campo-detalle label {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: #8fa0a8;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+.campo-detalle p {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin: 0;
+    color: #fff;
+    font-size: 0.95rem;
+}
