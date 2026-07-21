@@ -96,8 +96,8 @@
             <div class="redesDeco">
                 <h6>REDES SOCIALES</h6>
                 <div class="botonesRedes">
-                    <a href="#" class="botonRedes">@DecoOne.chis</a>
-                    <a href="#" class="botonRedes">@DecoOneChiapas</a>
+                    <a href="#" class="botonRedes" onclick="event.preventDefault();">@DecoOne.chis</a>
+                    <a href="#" class="botonRedes" onclick="event.preventDefault();">@DecoOneChiapas</a>
                 </div>
             </div>
         </div>
@@ -129,7 +129,20 @@
 
                     <input type="date" id="inputFechaFaq" required>
                 </div>
-                <input type="text" id="inputSalonFaq" placeholder="Salon donde sera el evento" required>
+                <div class="caja-desplegable-wrapper" style="margin-bottom: 20px; width: 100%;">
+                    <input type="hidden" name="salonEvento" id="inputSalonFaq" required>
+                    
+                    <div class="caja-desplegable-trigger" id="cajaTriggerSalon">
+                        <span class="placeholder-texto" id="textoTriggerSalon">Salón donde será el evento</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8">
+                            <path fill="rgba(255, 255, 255, 0.5)" d="M1.41 0L6 4.58L10.59 0L12 1.41L6 7.41L0 1.41L1.41 0Z"/>
+                        </svg>
+                    </div>
+                    
+                    <ul class="opciones-desplegables" id="opcionesMenuSalon">
+                        <li data-value="Por definir">Por definir</li>
+                    </ul>
+                </div>
                 <input type="text" id="inputIdeasFaq" placeholder="Vision de ideas para el evento">
                 <button type="submit" class="botonEnviar">Enviar mensaje</button>
             </form>

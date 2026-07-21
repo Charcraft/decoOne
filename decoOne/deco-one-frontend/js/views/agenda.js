@@ -1,3 +1,7 @@
+import { obtenerEventos } from '../components/api.js';
+
+const SERVER_URL = 'http://localhost:7000';
+
 const HORA_INICIO_CALENDARIO = 0;   
 const HORA_FIN_CALENDARIO = 25;     
 const PIXELES_POR_HORA = 60;
@@ -51,10 +55,25 @@ async function cargarYPintarSemana() {
     pintarEtiquetaMes(inicioSemanaActual, finSemana);
 
     try {
-        listaEventosSemana = await obtenerEventosPorSemana(
-            formatearFechaISO(inicioSemanaActual),
-            formatearFechaISO(finSemana)
-        );
+        // Obtenemos todos los eventos reales de MySQL
+        const todosLosEventos = await obtenerEventos();
+        
+        // Adaptamos los nombres de las variables de MySQL a lo que espera tu calendario
+        listaEventosSemana = todosLosEventos.map(e => ({
+            id: e.id,
+            titulo: e.titulo,
+            tipo: e.tipo_evento,
+            fecha: e.fecha_evento,
+            horaInicio: e.hora_inicio || 12,
+            duracionHoras: e.duracion_horas || 3,
+            salon: e.salon,
+            presupuesto: e.presupuesto || 0,
+            abono_requerido: e.abono_requerido || 0,
+            tamano_evento: e.tamano_evento || 'Pequeño',
+            solicitante: e.nombre_solicitante || 'Cliente Manual',
+            mensaje_cliente: e.mensaje_cliente || 'Sin mensaje adicional'
+        }));
+
         pintarEventos(listaEventosSemana, inicioSemanaActual);
     } catch (error) {
         console.error('Error al cargar la agenda:', error);
@@ -116,7 +135,12 @@ function pintarEventos(eventos, inicioSemana) {
 
     // 1. Clasificamos y filtramos los eventos visibles en esta semana
     const eventosVisibles = eventos.map(evento => {
-        const fechaEvento = new Date(evento.fecha + 'T00:00:00');
+        // BLINDAJE: Limpiamos la fecha por si Java le agrega horas o letras extra
+        let fechaLimpia = evento.fecha || "";
+        if (fechaLimpia.includes(' ')) fechaLimpia = fechaLimpia.split(' ')[0];
+        if (fechaLimpia.includes('T')) fechaLimpia = fechaLimpia.split('T')[0];
+        
+        const fechaEvento = new Date(fechaLimpia + 'T00:00:00');
         const diferenciaDias = Math.round((fechaEvento - inicioSemana) / (1000 * 60 * 60 * 24));
         return { ...evento, diferenciaDias };
     }).filter(e => e.diferenciaDias >= 0 && e.diferenciaDias <= 6);
@@ -137,8 +161,12 @@ function pintarEventos(eventos, inicioSemana) {
         const columna = document.querySelector(`.columna-dia[data-dia-indice="${primerEvento.diferenciaDias}"]`);
         if (!columna) continue;
 
-        const top = (primerEvento.horaInicio - HORA_INICIO_CALENDARIO) * PIXELES_POR_HORA;
-        const alto = primerEvento.duracionHoras * PIXELES_POR_HORA;
+        // Validamos que la hora inicial sea un número válido, si no, por defecto a las 12:00
+        const horaReal = parseFloat(primerEvento.horaInicio) || 12;
+        const duracionReal = parseFloat(primerEvento.duracionHoras) || 3;
+
+        const top = (horaReal - HORA_INICIO_CALENDARIO) * PIXELES_POR_HORA;
+        const alto = duracionReal * PIXELES_POR_HORA;
 
         const bloque = document.createElement('div');
         bloque.className = `evento-agenda evento-${primerEvento.tipo}`;
@@ -147,50 +175,37 @@ function pintarEventos(eventos, inicioSemana) {
         bloque.style.cursor = 'pointer';
 
         if (eventosGrupo.length > 1) {
-            // ==========================================
-            // MODO AGRUPADO (Múltiples eventos encimados)
-            // ==========================================
             const cantidadExtra = eventosGrupo.length - 1;
             bloque.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                     <strong>${primerEvento.titulo} + ${cantidadExtra} más</strong>
                 </div>
-                <small>${formatearHora(primerEvento.horaInicio)} - Eventos simultáneos</small>
+                <small>${formatearHora(horaReal)} - Eventos simultáneos</small>
             `;
 
-            // Al darle clic al cuadro, mostramos los detalles pero advertimos que hay más
-// Al darle clic al cuadro agrupado, mandamos al usuario al historial
-// Al darle clic al cuadro agrupado, mandamos al usuario al historial
             bloque.addEventListener('click', (e) => {
                 e.stopPropagation();
-                // Redirección a tu vista general de eventos original
                 window.location.href = 'Historial.html'; 
             });
 
         } else {
-            // ==========================================
-            // MODO INDIVIDUAL (Un solo evento en la hora)
-            // ==========================================
             bloque.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                     <strong>${primerEvento.titulo}</strong>
-                    <!-- El z-index y el pointer-events:none previenen que el clic se confunda -->
                     <button type="button" class="btn-edit-agenda" title="Editar Evento" style="background:none; border:none; color:inherit; cursor:pointer; padding:0 2px; position:relative; z-index:10;">
                         <i data-lucide="edit-2" style="width:13px; height:13px; pointer-events:none;"></i>
                     </button>
                 </div>
-                <small>${formatearHora(primerEvento.horaInicio)} - ${primerEvento.duracionHoras}h</small>
+                <small>${formatearHora(horaReal)} - ${duracionReal}h</small>
             `;
 
-            // Clic en el cuadro general -> Solo abre Ver Detalles
             bloque.addEventListener('click', () => {
                 abrirModalDetallesAgenda(primerEvento);
             });
 
-            // Clic milimétrico en el botón de Editar -> Detiene la propagación y abre el Editor
             const btnEditar = bloque.querySelector('.btn-edit-agenda');
             btnEditar.addEventListener('click', (e) => {
-                e.stopPropagation(); // Esto evita que el clic "traspase" el botón y le pegue al cuadro
+                e.stopPropagation(); 
                 abrirModalParaEditarAgenda(primerEvento);
             });
         }
@@ -235,12 +250,37 @@ function inicializarModalAgenda() {
         const inputEstado = document.getElementById('inputEstadoEvento');
         const inputMateriales = document.getElementById('inputMateriales');
 
+        // Sanitización robusta
+        const sanitizarFecha = (f) => {
+            if (f.includes('/')) {
+                const p = f.split('/');
+                return p.length === 3 ? `${p[2]}-${p[1].padStart(2, '0')}-${p[0].padStart(2, '0')}` : f;
+            }
+            return f;
+        };
+        const sanitizarHora = (h) => {
+            if (!h) return "00:00:00";
+            let hl = h.toLowerCase().replace(/[^0-9:ampm]/g, '');
+            if (hl.includes('am') || hl.includes('pm')) {
+                let isPM = hl.includes('pm');
+                hl = hl.replace(/am|pm/g, '');
+                let p = hl.split(':');
+                let hr = parseInt(p[0]) || 0;
+                let mn = p[1] ? p[1].substring(0, 2) : '00';
+                if (isPM && hr < 12) hr += 12;
+                if (!isPM && hr === 12) hr = 0;
+                return `${hr.toString().padStart(2, '0')}:${mn}:00`;
+            }
+            let p = h.split(':');
+            return `${(p[0] || '00').padStart(2, '0')}:${(p[1] || '00').padStart(2, '0')}:00`;
+        };
+
         const datos = {
             titulo: document.getElementById('inputNombreEvento').value,
             tipo: document.getElementById('inputTipoEvento').value,
-            fecha: document.getElementById('inputFechaEvento').value,
-            horaInicio: convertirHoraANumero(document.getElementById('inputHoraInicio').value),
-            horaRecogerMaterial: convertirHoraANumero(document.getElementById('inputHoraRecoger').value),
+            fecha: sanitizarFecha(document.getElementById('inputFechaEvento').value),
+            horaInicio: sanitizarHora(document.getElementById('inputHoraInicio').value),
+            horaRecogerMaterial: sanitizarHora(document.getElementById('inputHoraRecoger').value),
             duracionHoras: 3,
             
             // Si el select existe, toma su valor; si no, pon un valor por defecto
@@ -274,35 +314,96 @@ function abrirModalParaEditarAgenda(evento) {
     tituloContenedor.innerHTML = '<i data-lucide="edit-2"></i><h3>EDICIÓN DE EVENTO</h3>';
     lucide.createIcons();
 
-    document.getElementById('inputNombreEvento').value = evento.titulo;
-    document.getElementById('inputTipoEvento').value = evento.tipo;
-    document.getElementById('inputFechaEvento').value = evento.fecha;
-    document.getElementById('inputHoraInicio').value = convertirNumeroAHoraString(evento.horaInicio);
-    document.getElementById('inputHoraRecoger').value = convertirNumeroAHoraString(evento.horaRecogerMaterial);
-    document.getElementById('inputSalonEvento').value = evento.salon || 'Por definir';
-    document.getElementById('inputMateriales').value = (evento.materiales || []).join(', ');
-    document.getElementById('inputEstadoEvento').value = evento.estado || 'proceso';
+    // Función auxiliar para llenar inputs de forma SEGURA
+    const llenarInputSeguro = (id, valor) => {
+        const input = document.getElementById(id);
+        if (input) input.value = valor;
+    };
+
+    // Llenamos los datos sin riesgo de que explote si falta algún input en el HTML
+    llenarInputSeguro('inputNombreEvento', evento.titulo);
+    llenarInputSeguro('inputTipoEvento', evento.tipo);
+    llenarInputSeguro('inputFechaEvento', evento.fecha);
+    
+    // Validamos que horaInicio sea número antes de convertir
+    const horaIn = parseFloat(evento.horaInicio) || 12;
+    llenarInputSeguro('inputHoraInicio', convertirNumeroAHoraString(horaIn));
+    
+    // Si tiene hora de recoger, la ponemos, si no, lo dejamos en blanco
+    if (evento.horaRecogerMaterial) {
+        llenarInputSeguro('inputHoraRecoger', convertirNumeroAHoraString(evento.horaRecogerMaterial));
+    }
+    
+    llenarInputSeguro('inputSalonEvento', evento.salon || 'Por definir');
+    llenarInputSeguro('inputMateriales', (evento.materiales || []).join(', '));
+    llenarInputSeguro('inputEstadoEvento', evento.estado || 'proceso');
 
     modalForm.classList.remove('oculto');
 }
 
 function abrirModalDetallesAgenda(evento) {
-    document.getElementById('detNombre').textContent = evento.titulo;
-    document.getElementById('detTipo').textContent = evento.tipo;
-    
-    const [anio, mes, dia] = evento.fecha.split('-');
-    document.getElementById('detFecha').textContent = `${dia}/${mes}/${anio}`;
-    
-    document.getElementById('detHoraInicio').textContent = convertirNumeroAHoraString(evento.horaInicio) + " hrs";
-    document.getElementById('detHoraRecoger').textContent = convertirNumeroAHoraString(evento.horaRecogerMaterial) + " hrs";
-    document.getElementById('detSalon').textContent = evento.salon || 'Por definir';
-    document.getElementById('detSolicitante').textContent = evento.solicitante;
-    document.getElementById('detMateriales').textContent = (evento.materiales && evento.materiales.length > 0) 
-        ? evento.materiales.map(m => `• ${m}`).join('\n') 
-        : 'Ningún material asignado.';
+    const setTextoSeguro = (id, texto) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = texto;
+    };
+    const setHTMLSeguro = (id, html) => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = html;
+    };
+    const formatearMoneda = (v) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(v);
 
-    document.getElementById('modalVerDetalles').classList.remove('oculto');
-    document.getElementById('inputEstadoEvento').value = evento.estado || 'proceso';
+    setTextoSeguro('detNombre', evento.titulo);
+    setTextoSeguro('detTipo', evento.tipo);
+    
+    let fechaLimpia = evento.fecha || "";
+    if (fechaLimpia.includes(' ')) fechaLimpia = fechaLimpia.split(' ')[0];
+    if (fechaLimpia.includes('T')) fechaLimpia = fechaLimpia.split('T')[0];
+    
+    if (fechaLimpia) {
+        const [anio, mes, dia] = fechaLimpia.split('-');
+        setTextoSeguro('detFecha', `${dia}/${mes}/${anio}`);
+    }
+    
+    const horaIn = parseFloat(evento.horaInicio) || 12;
+    setTextoSeguro('detHoraInicio', convertirNumeroAHoraString(horaIn) + " hrs");
+    
+    const horaRecoger = horaIn + (parseFloat(evento.duracionHoras) || 3);
+    setTextoSeguro('detHoraRecoger', convertirNumeroAHoraString(horaRecoger) + " hrs");
+
+    setTextoSeguro('detSalon', evento.salon || 'Por definir');
+    setTextoSeguro('detSolicitante', evento.solicitante || '—');
+    setTextoSeguro('detPresupuesto', formatearMoneda(evento.presupuesto || 0));
+    setTextoSeguro('detAbono', formatearMoneda(evento.abono_requerido || 0));
+    
+    let claseTamano = 'pequeno';
+    if (evento.tamano_evento === 'Mediano') claseTamano = 'mediano';
+    if (evento.tamano_evento === 'Grande') claseTamano = 'grande';
+    setHTMLSeguro('detTamano', `<span class="badge-estado badge-${claseTamano}">${evento.tamano_evento || 'Pequeño'}</span>`);
+
+    setTextoSeguro('detMensajeCliente', evento.mensaje_cliente || 'Sin mensaje adicional');
+
+    // Fetch materiales reales del evento
+    setTextoSeguro('detMateriales', 'Cargando materiales...');
+    fetch(`${SERVER_URL}/api/eventos/${evento.id}/materiales`)
+        .then(res => res.json())
+        .then(materiales => {
+            const contMateriales = document.getElementById('detMateriales');
+            if (materiales && materiales.length > 0) {
+                contMateriales.innerHTML = materiales.map(m => `• ${m.cantidad}x ${m.nombre}`).join('<br>');
+            } else {
+                contMateriales.innerHTML = 'Ningún material asignado.';
+            }
+        })
+        .catch(err => {
+            console.error('Error cargando materiales', err);
+            setTextoSeguro('detMateriales', 'Error al cargar materiales.');
+        });
+
+    const modalDet = document.getElementById('modalVerDetalles');
+    if (modalDet) modalDet.classList.remove('oculto');
+
+    const inputEstado = document.getElementById('inputEstadoEvento');
+    if (inputEstado) inputEstado.value = evento.estado || 'proceso';
 }
 
 function convertirHoraANumero(valorTime) {

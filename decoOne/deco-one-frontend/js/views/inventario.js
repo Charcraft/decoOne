@@ -1,3 +1,4 @@
+import { obtenerInventario, agregarElementoInventario, editarElementoInventario, eliminarElementoInventario } from '../components/api.js';
 let inventarioActual = [];
 let idSeleccionadoParaEliminar = null;
 let idSeleccionadoParaEditar = null; 
@@ -5,15 +6,28 @@ let modoEdicion = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        inventarioActual = await obtenerInventario();
-        pintarTabla(inventarioActual);
-        pintarResumen(inventarioActual);
+        await recargarYPintarTabla(); // Llamamos a la función maestra
         inicializarBuscador();
         inicializarModales();
     } catch (error) {
         console.error('Error al cargar el inventario:', error);
     }
 });
+
+// FUNCIÓN MAESTRA QUE TRADUCE Y PINTA
+async function recargarYPintarTabla() {
+    const datosMySQL = await obtenerInventario();
+    inventarioActual = datosMySQL.map(itemDB => ({
+        id: itemDB.id,
+        fecha: new Date().toISOString().split('T')[0],
+        referencia: itemDB.categoria || 'N/A',
+        tipo: itemDB.nombre,
+        cantidad: itemDB.stock_total,
+        enUso: 0 // Lo calcularemos en la siguiente fase
+    }));
+    pintarTabla(inventarioActual);
+    pintarResumen(inventarioActual);
+}
 
 // Función creadora de notificaciones
 function mostrarNotificacion(mensaje, tipo = 'exito') {
@@ -141,20 +155,12 @@ function inicializarModales() {
         e.preventDefault();
         
         const cantidadTotal = Number(document.getElementById('addCantidad').value);
-        const enUso = Number(document.getElementById('addEnUso').value);
-
-        // VALIDACIÓN: En uso no puede superar la cantidad total
-        if (enUso > cantidadTotal) {
-            mostrarNotificacion('La cantidad en uso no puede ser mayor a la cantidad total.', 'error');
-            return; // Detiene el envío
-        }
 
         const datosFormulario = {
             tipo: document.getElementById('addTipo').value,
             referencia: document.getElementById('addReferencia').value,
             fecha: document.getElementById('addFecha').value,
-            cantidad: cantidadTotal,
-            enUso: enUso
+            cantidad: cantidadTotal
         };
 
         if (modoEdicion && idSeleccionadoParaEditar !== null) {
@@ -165,9 +171,7 @@ function inicializarModales() {
             mostrarNotificacion('Elemento agregado exitosamente.', 'exito');
         }
 
-        inventarioActual = await obtenerInventario(); 
-        pintarTabla(inventarioActual);
-        pintarResumen(inventarioActual);
+        await recargarYPintarTabla();
         cerrarAgregar();
     });
 
@@ -194,9 +198,8 @@ function inicializarModales() {
             return; // Detiene el envío
         }
 
-        inventarioActual = await eliminarElementoInventario(idSeleccionadoParaEliminar, cantidadAEliminar);
-        pintarTabla(inventarioActual);
-        pintarResumen(inventarioActual);
+        await eliminarElementoInventario(idSeleccionadoParaEliminar, cantidadAEliminar);
+        await recargarYPintarTabla();
         cerrarEliminar();
         
         if (cantidadAEliminar) {
@@ -234,7 +237,6 @@ function inicializarBotonesAccionesEnTabla() {
             document.getElementById('addReferencia').value = item.referencia;
             document.getElementById('addFecha').value = item.fecha;
             document.getElementById('addCantidad').value = item.cantidad;
-            document.getElementById('addEnUso').value = item.enUso;
 
             modalAgregar.classList.remove('oculto');
         });

@@ -57,7 +57,6 @@
                             <ul class="desplegableRegistro">
                                 <li class="item-cliente"><a href="#">Mis Eventos</a></li>
                                 <li class="item-decorador"><a href="../admin/dashboard.html">Administrador</a></li>
-                                <li><a href="#">Configuración</a></li>
                                 <li><a href="#" id="botonCerrarSesion" class="textoPequeño">Cerrar sesion</a></li>
                             </ul>
                         </div>
@@ -150,13 +149,6 @@
                         </div>
                     </div>
 
-                    <div class="modal-disenador">
-                        <div class="avatar-disenador" id="modalAvatarDisenador"></div>
-                        <div class="info-disenador">
-                            <span class="label">Diseñador Asignado</span>
-                            <span class="nombre" id="modalNombreDisenador"></span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -188,12 +180,18 @@
             </div>
         </footer>
 
+       <!-- Iconos -->
         <script src="https://unpkg.com/lucide@latest"></script>
         <script>lucide.createIcons();</script>
+        
+        <!-- Scripts Base -->
         <script src="../../js/core/localStorage.js"></script>
-        <script src="../../js/components/solicitudesSimulado.js"></script>
-        <script src="../../js/components/agendaSimulado.js"></script>
         <script src="../../js/components/navbar.js"></script>
-        <script src="../../js/views/misEventos.js"></script>
+        
+        <!-- Aún dejamos la agenda simulada por ahora, como pediste -->
+        <script src="../../js/components/agendaSimulado.js"></script>
+        
+        <!-- IMPORTANTE: type="module" permite importar api.js -->
+        <script type="module" src="../../js/views/misEventos.js"></script>
     </body>
 </html>

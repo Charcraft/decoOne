@@ -111,6 +111,7 @@
 .campo-detalle {
     margin-bottom: 1.25rem;
 }
+
 .campo-detalle label {
     font-size: 0.7rem;
     letter-spacing: 0.06em;
@@ -119,6 +120,7 @@
     display: block;
     margin-bottom: 0.25rem;
 }
+
 .campo-detalle p {
     background-color: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -127,4 +129,9 @@
     margin: 0;
     color: #fff;
     font-size: 0.95rem;
+}
+
+.modal-contenedor {
+    max-height: 85vh;
+    overflow-y: auto;
 }

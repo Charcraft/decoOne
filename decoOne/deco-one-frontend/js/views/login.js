@@ -75,11 +75,11 @@ function inicializarFormularioLogin() {
 
             // ✅ Lógica de redirección por Rol
             if (datos.usuario.rol === 'decorador' || datos.usuario.rol === 'empleado') {
-                alert('¡Bienvenido al Panel de Administración!');
-                window.location.href = '../admin/dashboard.html'; // Ruta a tu panel de admin
+                mostrarToast('¡Bienvenido al Panel de Administración!');
+                setTimeout(() => window.location.href = '../admin/dashboard.html', 1500);
             } else {
-                // Si es un cliente normal, va al inicio de la página pública
-                window.location.href = '../../index.html';
+                mostrarToast('¡Bienvenido! Redirigiendo...');
+                setTimeout(() => window.location.href = '../../index.html', 1500);
             }
 
         } catch (error) 
@@ -198,4 +198,23 @@ function mostrarExito(formulario, mensaje) {
 function limpiarMensaje(formulario) {
     const existente = formulario.querySelector('.mensaje-error, .mensaje-exito');
     if (existente) existente.remove();
+}
+
+function mostrarToast(mensaje) {
+    const toast = document.createElement('div');
+    toast.textContent = mensaje;
+    Object.assign(toast.style, {
+        position: 'fixed', bottom: '20px', right: '20px',
+        background: 'rgba(17, 42, 49, 0.95)', color: '#fff',
+        padding: '12px 24px', borderRadius: '8px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)', fontSize: '14px',
+        zIndex: '9999', opacity: '0', transform: 'translateY(20px)',
+        transition: 'all 0.3s ease'
+    });
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '1'; toast.style.transform = 'translateY(0)'; }, 10);
+    setTimeout(() => {
+        toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }

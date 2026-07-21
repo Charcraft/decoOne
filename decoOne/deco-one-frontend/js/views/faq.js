@@ -1,5 +1,7 @@
 import { crearSolicitudDesdeContacto } from '../components/api.js';
 
+const SERVER_URL = 'http://localhost:7000';
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Seleccionamos todos los botones de preguntas
     const preguntas = document.querySelectorAll('.preguntaFAQ');
@@ -24,46 +26,59 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const wrapper = document.querySelector('.caja-desplegable-wrapper');
-    const trigger = document.getElementById('cajaTrigger');
-    const opciones = document.querySelectorAll('.opciones-desplegables li');
-    const inputOculto = document.getElementById('tipoEventoValor');
-    const textoPlaceholder = trigger.querySelector('.placeholder-texto');
+    // Buscar TODOS los componentes desplegables en la página
+    const wrappers = document.querySelectorAll('.caja-desplegable-wrapper');
 
-    // 1. Abrir/Cerrar el menú al hacer clic en la caja principal
-    trigger.addEventListener('click', function(e) {
-        e.stopPropagation(); // Evita que el clic cierre el menú inmediatamente
-        wrapper.classList.toggle('abierto');
-    });
+    wrappers.forEach(wrapper => {
+        const trigger = wrapper.querySelector('.caja-desplegable-trigger');
+        const opcionesMenu = wrapper.querySelector('.opciones-desplegables');
+        const inputOculto = wrapper.querySelector('input[type="hidden"]');
+        const textoPlaceholder = trigger.querySelector('.placeholder-texto');
 
-    // 2. Darle funcionalidad a cada opción de la lista
-    opciones.forEach(opcion => {
-        opcion.addEventListener('click', function() {
-            // Reemplazar el texto "Tipo de evento" por la opción elegida
-            textoPlaceholder.textContent = this.textContent;
+        // 1. Abrir/Cerrar el menú al hacer clic
+        trigger.addEventListener('click', function(e) {
+            e.stopPropagation();
             
-            // Llenar el input oculto con el valor para que el formulario lo envíe
-            inputOculto.value = this.getAttribute('data-value');
+            // Cerrar cualquier otro menú abierto
+            document.querySelectorAll('.caja-desplegable-wrapper.abierto').forEach(w => {
+                if (w !== wrapper) w.classList.remove('abierto');
+            });
             
-            // Cambiar el color del texto a blanco (estado seleccionado)
-            trigger.classList.add('seleccionado');
-            
-            // Cerrar el menú
-            wrapper.classList.remove('abierto');
+            wrapper.classList.toggle('abierto');
+        });
+
+        // 2. Dar funcionalidad a las opciones usando delegación de eventos 
+        // (importante para las opciones de Salones que se cargan dinámicamente)
+        opcionesMenu.addEventListener('click', function(e) {
+            if (e.target.tagName === 'LI') {
+                const opcion = e.target;
+                
+                textoPlaceholder.textContent = opcion.textContent;
+                inputOculto.value = opcion.getAttribute('data-value');
+                trigger.classList.add('seleccionado');
+                wrapper.classList.remove('abierto');
+            }
         });
     });
 
-    // 3. Cerrar el menú si el usuario hace clic en cualquier otra parte de la pantalla
-    window.addEventListener('click', function(e) {
-        if (!wrapper.contains(e.target)) {
-            wrapper.classList.remove('abierto');
-        }
+    // 3. Cerrar los menús si se hace clic fuera de ellos
+    window.addEventListener('click', function() {
+        document.querySelectorAll('.caja-desplegable-wrapper.abierto').forEach(w => {
+            w.classList.remove('abierto');
+        });
     });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     const formulario = document.getElementById('formularioContacto');
     if (!formulario) return;
+
+    const usuarioCorreo = localStorage.getItem('usuarioCorreo');
+    const inputCorreoFaq = document.getElementById('inputCorreoFaq');
+    if (usuarioCorreo && inputCorreoFaq) {
+        inputCorreoFaq.value = usuarioCorreo;
+        inputCorreoFaq.setAttribute('readonly', true);
+    }
 
     formulario.addEventListener('submit', async (evento) => {
         evento.preventDefault();
@@ -73,8 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const usuarioLogueado = localStorage.getItem("usuarioCorreo");
         
         if (!usuarioLogueado) {
-            alert('¡Hola! Para poder solicitar un evento y darle seguimiento, primero necesitas crear una cuenta o iniciar sesión.');
-            window.location.href = '../auth/login.html'; // Redirige al login
+            mostrarToast('Por favor, inicia sesión para solicitar un evento.');
+            setTimeout(() => window.location.href = '../auth/login.html', 1500);
             return; // Detiene la ejecución del formulario
         }
 
@@ -92,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         if (!nuevaSolicitud.tipoEvento) {
-            alert('Por favor selecciona el tipo de evento.');
+            mostrarToast('Por favor selecciona el tipo de evento.');
             return;
         }
 
@@ -101,17 +116,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             await crearSolicitudDesdeContacto(nuevaSolicitud);
-            alert('¡Gracias! Tu solicitud fue enviada. Te contactaremos pronto y podrás ver el estado en "Mis Eventos".');
-            formulario.reset();
-
-            document.querySelector('.placeholder-texto').textContent = 'Tipo de evento';
-            document.getElementById('cajaTrigger').classList.remove('seleccionado');
+            mostrarToast("¡Solicitud enviada! Te contactaremos pronto. Revisa el estado en 'Mis Eventos'.");
+            
+            setTimeout(() => {
+                formulario.reset();
+                document.querySelector('.placeholder-texto').textContent = 'Tipo de evento';
+                document.getElementById('cajaTrigger').classList.remove('seleccionado');
+                if (usuarioCorreo && inputCorreoFaq) {
+                    inputCorreoFaq.value = usuarioCorreo;
+                }
+            }, 2000);
         } catch (error) {
             console.error('Error al enviar la solicitud:', error);
-            alert('Hubo un problema. Asegúrate de que el correo coincida con tu cuenta registrada.');
+            mostrarToast('Hubo un problema. Asegúrate de que el correo coincida con tu cuenta registrada.');
         } finally {
             botonEnviar.disabled = false;
             botonEnviar.textContent = textoOriginalBoton;
         }
     });
+});
+document.addEventListener('DOMContentLoaded', () => {
+    // Seleccionamos el input de fecha de tu HTML
+    const inputFecha = document.getElementById('inputFechaFaq');
+    
+    if (inputFecha) {
+        const hoy = new Date();
+        
+        // OPCIONAL: Sumamos 7 días a la fecha actual para obligar al cliente 
+        // a reservar con al menos una semana de anticipación. 
+        // (Puedes cambiar el 7 por un 1 si solo quieres que sea a partir de mañana).
+        hoy.setDate(hoy.getDate() + 7); 
+        
+        // Formateamos la fecha a YYYY-MM-DD, que es lo que entiende el input type="date"
+        const fechaMinima = hoy.toISOString().split('T')[0];
+        
+        // Le aplicamos el atributo "min" al input
+        inputFecha.setAttribute('min', fechaMinima);
+    }
+});
+
+function mostrarToast(mensaje) {
+    const toast = document.createElement('div');
+    toast.textContent = mensaje;
+    Object.assign(toast.style, {
+        position: 'fixed', bottom: '20px', right: '20px',
+        background: 'rgba(17, 42, 49, 0.95)', color: '#fff',
+        padding: '12px 24px', borderRadius: '8px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)', fontSize: '14px',
+        zIndex: '9999', opacity: '0', transform: 'translateY(20px)',
+        transition: 'all 0.3s ease'
+    });
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '1'; toast.style.transform = 'translateY(0)'; }, 10);
+    setTimeout(() => {
+        toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // En lugar de selectSalon, buscamos la lista <ul> del menú personalizado
+    const ulSalones = document.getElementById('opcionesMenuSalon');
+    
+    if (ulSalones) {
+        try {
+            const respuesta = await fetch(`${SERVER_URL}/api/salones`);
+            const salones = await respuesta.json();
+            
+            salones.forEach(salon => {
+                const li = document.createElement('li');
+                li.setAttribute('data-value', salon.nombre);
+                li.textContent = salon.nombre;
+                ulSalones.appendChild(li);
+            });
+        } catch (error) {
+            console.error('Error al cargar salones:', error);
+        }
+    }
+
 });

@@ -1,4 +1,5 @@
-import { obtenerTodasLasSolicitudes, actualizarEstadoSolicitud } from '../components/api.js';
+// 1. AQUI AGREGAMOS "crearEvento" EN LA PRIMERA LINEA
+import { obtenerTodasLasSolicitudes, actualizarEstadoSolicitud, crearEvento } from '../components/api.js';
 
 let listaSolicitudes = []; 
 let solicitudSeleccionadaId = null;
@@ -115,7 +116,7 @@ function abrirModal(id) {
     document.getElementById('fechaModalSolicitud').textContent = formatearFechaLarga(solicitud.fechaEventoDeseada);
     document.getElementById('salonModalSolicitud').textContent = solicitud.salonDeseado || 'Por definir';
     document.getElementById('tipoModalSolicitud').textContent = solicitud.tipoEvento;
-    document.getElementById('correoModalSolicitud').textContent = solicitud.telefono || 'Sin teléfono';
+    document.getElementById('correoModalSolicitud').textContent = solicitud.correo || 'Sin correo';
     document.getElementById('mensajeModalSolicitud').textContent = `"${solicitud.ideas}"`;
 
     const badge = document.getElementById('badgeEstadoModal');
@@ -152,33 +153,30 @@ function formatearFechaLarga(fechaISO) {
     return `${Number(dia)} de ${meses[Number(mes) - 1]}, ${anio}`;
 }
 
+// 2. AQUI REEMPLAZAMOS LA FUNCION PARA QUE USE LA BD REAL
 async function resolverSolicitud(nuevoEstado) {
     if (!solicitudSeleccionadaId) return;
 
     try {
+        // Actualiza el estado de la solicitud en MySQL
         await actualizarEstadoSolicitud(solicitudSeleccionadaId, nuevoEstado);
 
+        // Si se aprobó, creamos automáticamente el evento en la agenda real
         if (nuevoEstado === 'contactado') {
             const solicitud = listaSolicitudes.find(s => s.id === solicitudSeleccionadaId);
 
             if (solicitud) {
-                if (typeof agregarEventoAgenda === 'function') {
-                    await agregarEventoAgenda({
-                        solicitudId: solicitud.id, 
-                        titulo: solicitud.nombre,
-                        solicitante: solicitud.nombre,
-                        fecha: solicitud.fechaEventoDeseada, 
-                        horaInicio: 12,
-                        horaRecogerMaterial: 9,
-                        duracionHoras: 3,
-                        tipo: solicitud.tipoEvento,
-                        salon: solicitud.salonDeseado,
-                        estadoManual: 'auto',      
-                        presupuestoTotal: 0,
-                        materiales: [solicitud.ideas],
-                        imagen: solicitud.imagen || 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500'
-                    });
-                }
+                // Mandamos los datos a la API de tu servidor Java
+                await crearEvento({
+                    id_solicitud: solicitud.id,
+                    titulo: `Evento de ${solicitud.nombre}`,
+                    tipo_evento: solicitud.tipoEvento,
+                    fecha_evento: solicitud.fechaEventoDeseada,
+                    hora_inicio: 12.0, // Formato que usa tu calendario
+                    duracion_horas: 3.0,
+                    salon: solicitud.salonDeseado || 'Por definir',
+                    estado: 'proceso'
+                });
             }
         }
 

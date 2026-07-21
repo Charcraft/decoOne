@@ -10,10 +10,94 @@
     <link rel="stylesheet" href="../../css/components/navbarAdmin.css">
     <link rel="stylesheet" href="../../css/components/panel-admin.css">
     <link rel="stylesheet" href="../../css/components/tarjetas.css">
-    <link rel="stylesheet" href="../../css/components/grafico-barras.css">
     <link rel="stylesheet" href="../../css/views/dashboard.css">
     <link rel="stylesheet" href="../../css/base/responsive.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* ===== Dashboard Analytic Tabs ===== */
+        .tabs-grafica {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            background: transparent;
+            color: #8fa0a8;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.25s ease;
+        }
+        .tab-btn:hover { color: #ccc; }
+        .tab-btn.activo {
+            color: #2dd4bf;
+            border-bottom-color: #2dd4bf;
+        }
+        .descripcion-grafica {
+            margin-top: 18px;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.15);
+            border-left: 3px solid rgba(45, 212, 191, 0.4);
+            border-radius: 4px;
+            font-size: 0.82rem;
+            color: #8fa0a8;
+            line-height: 1.55;
+        }
 
+        /* ===== Predicciones Cards ===== */
+        .grid-predicciones {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .card-prediccion {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 18px 20px;
+        }
+        .card-prediccion h5 {
+            color: #8fa0a8;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .card-prediccion p, .card-prediccion li {
+            color: #d1d5db;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+        .card-prediccion ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .card-prediccion ul li {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .card-prediccion ul li:last-child { border-bottom: none; }
+        .card-prediccion ul li::before {
+            content: "\2022";
+            color: #2dd4bf;
+            margin-right: 8px;
+        }
+        .card-prediccion.card-full {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 768px) {
+            .grid-predicciones { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body class="body-admin">
 
@@ -25,78 +109,105 @@
         <main class="dashboard-container">
             <section class="titulo-pagina">
                 <h2>Dashboard</h2>
-                <p>Vista general.</p>
+                <p>Centro de mando &mdash; Vista general del negocio.</p>
             </section>
 
+            <!-- ====== METRICAS ====== -->
             <section class="seccion-metricas">
                 <div class="tarjeta-metrica">
-                    <div class="icono-metrica"><i data-lucide="calendar"></i></div>
+                    <div class="icono-metrica"><i data-lucide="dollar-sign"></i></div>
                     <div>
-                        <h3 id="metricaEventos">—</h3>
-                        <p>Eventos este mes</p>
+                        <h3 id="metricaIngresos">&mdash;</h3>
+                        <p>Total Ingresos</p>
                     </div>
                 </div>
                 <div class="tarjeta-metrica">
-                    <div class="icono-metrica"><i data-lucide="corner-right-up"></i></div>
+                    <div class="icono-metrica"><i data-lucide="calendar-check"></i></div>
                     <div>
-                        <h3 id="metricaPresupuesto">—</h3>
-                        <p>Presupuesto promedio</p>
+                        <h3 id="metricaEventosActivos">&mdash;</h3>
+                        <p>Eventos Activos</p>
                     </div>
                 </div>
                 <div class="tarjeta-metrica">
-                    <div class="icono-metrica"><i data-lucide="users"></i></div>
+                    <div class="icono-metrica"><i data-lucide="file-text"></i></div>
                     <div>
-                        <h3 id="metricaInvitados">—</h3>
-                        <p>Invitados promedio</p>
+                        <h3 id="metricaSolicitudes">&mdash;</h3>
+                        <p>Solicitudes Pendientes</p>
+                    </div>
+                </div>
+                <div class="tarjeta-metrica">
+                    <div class="icono-metrica"><i data-lucide="package"></i></div>
+                    <div>
+                        <h3 id="metricaMateriales">&mdash;</h3>
+                        <p>Materiales en Uso</p>
                     </div>
                 </div>
             </section>
 
-            <section class="grid-admin-info">
-                <div class="contenedor-bloque">
-                    <div class="encabezado-bloque">
-                        <h4>DATOS DEL EVENTO MAS PROXIMO</h4>
-                        <select class="input-admin input-corto" id="selectorTipoEvento">
-                            <option value="Boda" selected>Boda</option>
-                            <option value="Bautizo">Bautizo</option>
-                        </select>
-                    </div>
-
-                    <div class="fila-datos">
-                        <div>
-                            <label>Nombre de evento</label>
-                            <input type="text" class="input-admin" id="inputNombreEvento" readonly>
-                        </div>
-                        <div>
-                            <label>Presupuesto</label>
-                            <input type="text" class="input-admin" id="inputPresupuesto" readonly>
-                        </div>
-                    </div>
-
-                    <label>Materiales más solicitados</label>
-                    <div class="caja-lista" id="listaMateriales"></div>
+            <!-- ====== PROXIMOS EVENTOS ====== -->
+            <section class="contenedor-bloque" style="overflow-x: auto;">
+                <div class="encabezado-bloque">
+                    <h4>PROXIMOS EVENTOS</h4>
                 </div>
-
-                <div class="contenedor-bloque">
-                    <h4>PREDICCIONES Y RECOMENDACIONES</h4>
-                    <div class="caja-texto" id="cajaEstiloSugerido"></div>
-                    <div class="caja-texto" id="cajaPaletaColores"></div>
-
-                    <label class="etiqueta-tendencias">Tendencias actuales</label>
-                    <ul class="lista-tendencias" id="listaTendencias"></ul>
-                </div>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 15px; color: white; text-align: left;">
+                    <thead style="background: rgba(0,0,0,0.2); border-bottom: 1px solid #2a3b47;">
+                        <tr>
+                            <th style="padding: 10px;">Fecha</th>
+                            <th style="padding: 10px;">Evento</th>
+                            <th style="padding: 10px;">Salon</th>
+                            <th style="padding: 10px;">Cliente</th>
+                            <th style="padding: 10px;">Materiales (Piezas)</th>
+                            <th style="padding: 10px;">Presupuesto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaProximosEventos">
+                        <tr><td colspan="6" style="text-align:center; padding:15px; color: #8fa0a8;">Cargando proximos eventos...</td></tr>
+                    </tbody>
+                </table>
             </section>
 
+            <!-- ====== ANALITICA CON TABS ====== -->
             <section class="contenedor-bloque">
-                <h4>DEMANDA ESTIMADA</h4>
-                <div class="grafico-demanda" id="graficoDemanda"></div>
+                <h4 style="margin-bottom: 0;">ANALITICA DEL AÑO</h4>
+                <div class="tabs-grafica">
+                    <button class="tab-btn activo" id="btnGraficaDemanda">Demanda por Tematica</button>
+                    <button class="tab-btn" id="btnGraficaIngresos">Flujo de Ingresos</button>
+                </div>
+                <div style="width: 100%; height: 320px; position: relative;">
+                    <canvas id="canvasGraficaDashboard"></canvas>
+                </div>
+                <div class="descripcion-grafica" id="descripcionGrafica">
+                    Visualizacion de volumen de reservas clasificadas por tipo de evento a lo largo del anio. Permite identificar las temporadas de mayor demanda para planificar la preparacion de la utileria y paquetes decorativos.
+                </div>
             </section>
+
+            <!-- ====== PREDICCIONES & RECOMENDACIONES ====== -->
+            <section class="contenedor-bloque">
+                <h4>ANALISIS PREDICTIVO E INTELIGENCIA DE NEGOCIO</h4>
+                <div class="grid-predicciones" id="gridPredicciones">
+                    <div class="card-prediccion">
+                        <h5>Estilo y Paleta Recomendada</h5>
+                        <p id="predEstilo" style="color:#8fa0a8;">Cargando...</p>
+                        <p id="predPaleta" style="margin-top:8px; color:#8fa0a8;">Cargando...</p>
+                    </div>
+                    <div class="card-prediccion">
+                        <h5>Tendencias de Mercado</h5>
+                        <ul id="predTendencias">
+                            <li style="color:#8fa0a8;">Cargando...</li>
+                        </ul>
+                    </div>
+                    <div class="card-prediccion card-full">
+                        <h5>Recomendacion de Stock / Inventario</h5>
+                        <p id="predInventario" style="color:#8fa0a8;">Cargando...</p>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="../../js/core/localStorage.js"></script>
-    <script src="../../js/components/dashboardSimulado.js"></script>
     <script src="../../js/views/dashboard.js"></script>
     <script src="../../js/components/navbar-admin.js"></script>
     <script src="../../js/components/sidebar-admin.js"></script>

@@ -1,62 +1,78 @@
+import { obtenerMisSolicitudes } from '../components/api.js';
+
 // ==========================================
-// 1. CAPA DE DATOS
+// 1. CAPA DE DATOS (CONECTADA A MYSQL)
 // ==========================================
 const EventosService = {
     async obtenerEventosCliente() {
+        // Leemos el correo exactamente como lo tienes en tu Local Storage
         const correo = localStorage.getItem('usuarioCorreo');
 
         if (!correo) {
-            return []; // sin sesión, no hay a quién filtrar
+            console.warn("No hay sesión iniciada (Falta el correo).");
+            return []; 
         }
 
         try {
-            const solicitudes = await obtenerSolicitudesPorCorreo(correo);
+            // Enviamos el correo al backend
+            const solicitudes = await obtenerMisSolicitudes(correo);
             return solicitudes.map(mapearSolicitudATarjeta);
         } catch (error) {
-            console.error('Error al obtener eventos del cliente:', error);
+            console.error('Error al obtener eventos del cliente desde MySQL:', error);
             return [];
         }
     }
 };
 
+// ... a partir de aquí hacia abajo (mapearSolicitudATarjeta, UIEventos, etc.) 
+// deja exactamente el mismo código que ya tenías.
+
+function calcularEstadoPorFecha(fechaISO) {
+    // Creamos la fecha de hoy ignorando la hora exacta
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    
+    // Creamos la fecha del evento
+    const fechaEvento = new Date(fechaISO + 'T00:00:00'); // Evita desfases de zona horaria
+
+    if (fechaEvento > hoy) return { texto: 'En proceso', clase: 'proceso' };
+    if (fechaEvento.getTime() === hoy.getTime()) return { texto: 'En curso', clase: 'curso' };
+    return { texto: 'Completado', clase: 'completado' };
+}
+
 function mapearSolicitudATarjeta(solicitud) {
-    // Caso 1: el decorador la rechazó
-    if (solicitud.estado === 'descartado') {
-        return construirTarjeta(solicitud, 'Rechazado', 'rechazado', solicitud.salonDeseado || 'Por definir', '—');
+    const p = solicitud.presupuesto || 0;
+    const a = solicitud.abono_requerido || 0;
+    const s = solicitud.salon || solicitud.salonDeseado;
+
+    // Caso 1: Rechazado
+    if (solicitud.estado === 'descartado' || solicitud.estado === 'rechazado') {
+        return construirTarjeta(solicitud, 'Rechazado', 'rechazado', s, '—', p, a);
     }
 
-    // Caso 2: todavía no la revisa el decorador
+    // Caso 2: Pendiente
     if (solicitud.estado === 'pendiente') {
-        return construirTarjeta(solicitud, 'Pendiente', 'pendiente', solicitud.salonDeseado || 'Por definir', '—');
+        return construirTarjeta(solicitud, 'Pendiente', 'pendiente', s, '—', p, a);
     }
 
-    // Caso 3: aprobada -> buscamos el evento real ya creado en la agenda
-    const agendaData = localStorage.getItem('deco_one_agenda_simulada');
-    const eventosAgenda = agendaData ? JSON.parse(agendaData) : [];
-    const eventoReal = eventosAgenda.find(e => e.solicitudId === solicitud.id);
-
-    if (!eventoReal) {
-        return construirTarjeta(solicitud, 'En proceso', 'proceso', solicitud.salonDeseado || 'Por definir', 'Decorador Asignado');
+    // Caso 3: Aprobado (Aquí entra la lógica automática)
+    if (solicitud.estado === 'aprobado') {
+        // Calculamos el estado real basado en el reloj
+        const estadoAuto = calcularEstadoPorFecha(solicitud.fechaEventoDeseada);
+        
+        return construirTarjeta(
+            solicitud, 
+            estadoAuto.texto, 
+            estadoAuto.clase, 
+            s, 
+            'Decorador Asignado',
+            p,
+            a
+        );
     }
 
-    // Usamos la MISMA función que usa el panel del decorador — ya no hay dos copias divergentes
-    const estadoCalculado = calcularEstadoEvento(eventoReal);
-    // Se agrega 'cancelado' que faltaba: sin esta entrada, un evento cancelado
-    // manualmente por el admin (estadoManual !== 'auto') rompía la píldora de estado
-    // igual que pasaba antes con 'pendiente'.
-    const mapaClaseCliente = { proceso: 'proceso', curso: 'curso', terminado: 'completado', cancelado: 'cancelado' };
-
-    return construirTarjeta(
-        solicitud,
-        estadoCalculado.texto,
-        mapaClaseCliente[estadoCalculado.clase],
-        eventoReal.salon || solicitud.salonDeseado,
-        'Decorador Asignado',
-        // TODO(conexión backend): hasta que agendaSimulado.js/el backend real
-        // devuelvan estos valores, se muestran en 0 (ver nota en construirTarjeta)
-        eventoReal.presupuestoTotal ?? 0,
-        eventoReal.totalAbonado ?? 0
-    );
+    // Fallback por defecto
+    return construirTarjeta(solicitud, solicitud.estado, 'pendiente', s, '—', p, a);
 }
 
 function construirTarjeta(solicitud, estadoTexto, claseEstado, salon, disenador, presupuestoTotal = 0, totalAbonado = 0) {
@@ -66,23 +82,22 @@ function construirTarjeta(solicitud, estadoTexto, claseEstado, salon, disenador,
         titulo: `${solicitud.tipoEvento} de ${solicitud.nombre}`,
         estado: estadoTexto,
         claseEstado: claseEstado,
-        // Renombrado de "fechaEvento" a "fechaEventoDeseada" (ver schema.sql)
-        fechaFormateada: formatearFechaLargaCliente(solicitud.fechaEventoDeseada),
+        // Usamos la fecha real que viene de MySQL (fechaEventoDeseada)
+        fechaFormateada: formatearFechaLargaCliente(solicitud.fechaEventoDeseada || '2026-01-01'),
         salon: salon,
         disenador: disenador,
-        imagenUrl: solicitud.imagen,
-        // TODO(conexión backend): presupuestoTotal viene de eventos.presupuesto_total;
-        // totalAbonado viene de SUM(abonos.monto) WHERE id_evento = X (ver schema.sql).
-        // Mientras no exista ese dato real (solicitud pendiente/rechazada, o evento
-        // recién aprobado sin presupuesto capturado aún), se muestra en 0.
+        imagenUrl: solicitud.imagenUrl || 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Imagen por defecto si no hay
         presupuestoTotal: presupuestoTotal,
         totalAbonado: totalAbonado
     };
 }
 
 function formatearFechaLargaCliente(fechaISO) {
+    if (!fechaISO) return 'Fecha por definir';
     const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-    const [anio, mes, dia] = fechaISO.split('-');
+    const partes = fechaISO.split('-');
+    if (partes.length !== 3) return fechaISO; // Por si viene en otro formato
+    const [anio, mes, dia] = partes;
     return `${Number(dia)} de ${meses[Number(mes) - 1]} del ${anio}`;
 }
 
@@ -121,25 +136,33 @@ const UIEventos = {
                         <h3>${evento.titulo}</h3>
                         <div class="detalleEvento"><i data-lucide="calendar"></i><span>${evento.fechaFormateada}</span></div>
                         <div class="detalleEvento"><i data-lucide="map-pin"></i><span>Salon: ${evento.salon}</span></div>
-                        <button class="verDetalles" onclick="UIEventos.abrirModal('${eventoJSON}')" style="background:none; border:none; cursor:pointer;">Ver detalles &rarr;</button>
+                        <button class="verDetalles" data-evento="${eventoJSON}" style="background:none; border:none; cursor:pointer;">Ver detalles &rarr;</button>
                     </div>
                 </article>
             `;
             this.contenedorGrid.innerHTML += tarjeta;
         });
 
+        // Event Listeners para los botones de Ver Detalles
+        document.querySelectorAll('.verDetalles').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const data = e.currentTarget.getAttribute('data-evento');
+                this.abrirModal(data);
+            });
+        });
+
         if (window.lucide) lucide.createIcons();
     },
 
-        pintarResumen(lista) {
-            const completados = lista.filter(e => e.claseEstado === 'completado').length;
-            const enCurso = lista.filter(e => e.claseEstado === 'curso').length;
-            const proceso = lista.filter(e => e.claseEstado === 'proceso' || e.claseEstado === 'pendiente').length;
+    pintarResumen(lista) {
+        const completados = lista.filter(e => e.claseEstado === 'completado').length;
+        const enCurso = lista.filter(e => e.claseEstado === 'curso').length;
+        const proceso = lista.filter(e => e.claseEstado === 'proceso' || e.claseEstado === 'pendiente').length;
 
-            document.getElementById('contadorCompletados').textContent = completados;
-            document.getElementById('contadorProximos').textContent = enCurso; // reutiliza el pill existente para "En curso"
-            document.getElementById('contadorProceso').textContent = proceso;
-        },
+        document.getElementById('contadorCompletados').textContent = completados;
+        document.getElementById('contadorProximos').textContent = enCurso;
+        document.getElementById('contadorProceso').textContent = proceso;
+    },
 
     inicializarFiltros() {
         document.querySelectorAll('.filtroEvento').forEach(boton => {
@@ -169,20 +192,15 @@ const UIEventos = {
         etiquetaEstado.className = `estadoEvento ${evento.claseEstado}`;
 
         document.getElementById('modalFecha').innerText = evento.fechaFormateada;
-        document.getElementById('modalUbicacion').innerText = evento.salon;
+        document.getElementById('modalUbicacion').innerText = evento.salon || 'Por definir';
 
-        // El saldo pendiente NUNCA se guarda como dato — se calcula aquí mismo
-        // (presupuesto menos lo abonado), igual que ya se documenta en schema.sql,
-        // para que nunca pueda desincronizarse de los dos números reales.
         const saldoPendiente = evento.presupuestoTotal - evento.totalAbonado;
-        const formatoMXN = (n) => `$${n.toLocaleString('es-MX')} MXN`;
+        const formatoMXN = (n) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(n);
 
         document.getElementById('modalPresupuestoTotal').innerText = formatoMXN(evento.presupuestoTotal);
         document.getElementById('modalTotalAbonado').innerText = formatoMXN(evento.totalAbonado);
         document.getElementById('modalSaldoPendiente').innerText = formatoMXN(saldoPendiente);
 
-        document.getElementById('modalNombreDisenador').innerText = evento.disenador;
-        document.getElementById('modalAvatarDisenador').innerText = evento.disenador.charAt(0);
 
         if (window.lucide) lucide.createIcons();
         this.modal.classList.remove('oculto');

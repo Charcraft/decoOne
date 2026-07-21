@@ -88,3 +88,17 @@
     background-color: rgba(255, 118, 118, 0.85);
     color: #ffffff;
 }
+
+/* Badges Tamaño de Evento */
+.badge-pequeno {
+    background-color: rgba(75, 181, 67, 0.15);
+    color: var(--color-estado-completado);
+}
+.badge-mediano {
+    background-color: rgba(243, 156, 18, 0.15);
+    color: var(--color-estado-proceso);
+}
+.badge-grande {
+    background-color: rgba(255, 118, 118, 0.15);
+    color: #ff7676;
+}

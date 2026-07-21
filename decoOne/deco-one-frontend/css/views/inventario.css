@@ -26,7 +26,13 @@
 
 .tabla-inventario {
     width: 100%;
+    min-width: 800px;
     border-collapse: collapse;
+}
+
+.tabla-responsiva {
+    width: 100%;
+    overflow-x: auto;
 }
 
 .tabla-inventario th {

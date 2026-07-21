@@ -153,13 +153,33 @@
                     <label>LUGAR / SALÓN</label>
                     <p id="detSalon">—</p>
                 </div>
-                <div class="campo-detalle">
-                    <label>SOLICITANTE</label>
-                    <p id="detSolicitante">—</p>
+                <div class="fila-modal">
+                    <div class="campo-detalle">
+                        <label>PRESUPUESTO</label>
+                        <p id="detPresupuesto">—</p>
+                    </div>
+                    <div class="campo-detalle">
+                        <label>ABONO REQUERIDO</label>
+                        <p id="detAbono">—</p>
+                    </div>
+                </div>
+                <div class="fila-modal">
+                    <div class="campo-detalle">
+                        <label>TAMAÑO DEL EVENTO</label>
+                        <p id="detTamano">—</p>
+                    </div>
+                    <div class="campo-detalle">
+                        <label>SOLICITANTE</label>
+                        <p id="detSolicitante">—</p>
+                    </div>
                 </div>
                 <div class="campo-detalle">
                     <label>MATERIALES A UTILIZAR</label>
                     <p id="detMateriales" style="white-space: pre-line;">—</p>
+                </div>
+                <div class="campo-detalle">
+                    <label>MENSAJE DEL CLIENTE</label>
+                    <p id="detMensajeCliente" style="white-space: pre-line; font-style: italic; color: #8fa0a8;">—</p>
                 </div>
                 <div class="modal-acciones" style="margin-top: 1.5rem;">
                     <button type="button" class="boton-primario" id="botonCerrarDetallesAceptar">Entendido</button>
@@ -167,14 +187,17 @@
             </div>
         </div>
     </div>
-
+<!-- ... tus scripts anteriores ... -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="../../js/core/localStorage.js"></script>
     <script src="../../js/components/navbar-admin.js"></script>
     <script src="../../js/components/sidebar-admin.js"></script>
     <script src="../../js/components/layout-loader.js"></script>
     <script src="../../js/components/modal-evento.js"></script>
-    <script src="../../js/components/agendaSimulado.js"></script>
-    <script src="../../js/views/agenda.js"></script>
+    
+    <!-- 1. ELIMINAMOS agendaSimulado.js porque ya usamos datos reales -->
+    
+    <!-- 2. AGREGAMOS type="module" para que pueda importar desde api.js -->
+    <script type="module" src="../../js/views/agenda.js"></script>
 </body>
 </html>
