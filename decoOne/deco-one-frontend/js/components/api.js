@@ -3,8 +3,10 @@
  * Reemplaza al antiguo "solicitudesSimulado.js".
  */
 
-// 1. Definimos la URL base en un solo lugar (Localhost para pruebas).
-const API_BASE_URL = 'http://localhost:7000/api';
+// ✅ AHORA (Auto-detecta si estás en tu PC o en AWS):
+const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:7000/api'
+    : 'https://54-172-182-157.sslip.io/api';
 // 2. Reemplazamos las funciones simuladas por peticiones fetch reales.
 
 export async function obtenerSolicitudesPorMes(anio, mes) {
@@ -271,7 +273,7 @@ export async function agregarEventoAgenda(datosEvento) {
             },
             body: JSON.stringify(datosEvento)
         });
-        if (!respuesta.ok) throw new Error('Error al guardar el evento en la BD');
+        if (!respuesta.ok) throw new Error(await respuesta.text() || 'Error al guardar el evento en la BD');
         return await respuesta.text();
     } catch (error) {
         console.error("Error agregando evento:", error);
@@ -288,7 +290,7 @@ export async function editarEventoAgenda(id, datosEvento) {
             },
             body: JSON.stringify(datosEvento)
         });
-        if (!respuesta.ok) throw new Error('Error al actualizar el evento en la BD');
+        if (!respuesta.ok) throw new Error(await respuesta.text() || 'Error al actualizar el evento en la BD');
         return await respuesta.text();
     } catch (error) {
         console.error("Error editando evento:", error);

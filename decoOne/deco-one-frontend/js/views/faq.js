@@ -1,6 +1,6 @@
 import { crearSolicitudDesdeContacto } from '../components/api.js';
 
-const SERVER_URL = 'http://localhost:7000';
+const SERVER_URL = window.API_BASE_URL;
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Seleccionamos todos los botones de preguntas

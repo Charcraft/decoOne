@@ -42,9 +42,6 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="boton-agregar-evento" id="botonAbrirModalEvento">
-                    <i data-lucide="plus"></i> Agregar
-                </button>
             </section>
 
             <div class="separador-historial"></div>
@@ -168,7 +165,7 @@
 
                 <div class="modal-acciones">
                     <button type="button" class="boton-secundario" id="botonCancelarModal">Cancelar</button>
-                    <button type="submit" class="boton-primario">Confirmar Registro</button>
+                    <button type="submit" class="boton-primario" id="botonSubmitEvento">Confirmar Registro</button>
                 </div>
             </form>
         </div>
@@ -249,12 +246,13 @@
     </div>
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../../js/config.js"></script>
     <script src="../../js/core/localStorage.js"></script>
     <script src="../../js/components/navbar-admin.js"></script>
     <script src="../../js/components/sidebar-admin.js"></script>
     <script src="../../js/components/modal-evento.js"></script>
     <script src="../../js/components/layout-loader.js"></script>
-    
+
     <script type="module" src="../../js/views/historial.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 // DASHBOARD.JS — Centro de Mando DECO-ONE
 // ==========================================
 
-const SERVER_URL = 'http://localhost:7000'; // IP devuelta a localhost para pruebas locales
+const SERVER_URL = window.API_BASE_URL;
 
 
 let myChart = null;

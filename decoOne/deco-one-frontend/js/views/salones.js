@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     inicializarModal();
 });
 
-const SERVER_URL = 'http://localhost:7000';
+const SERVER_URL = window.API_BASE_URL;
 let modoEdicion = false;
 let idSalonSeleccionado = null;
 
