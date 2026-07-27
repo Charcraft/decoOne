@@ -1,0 +1,10 @@
+# Artefactos de compilación (Maven)
+**/target/
+
+# Archivos sensibles / de despliegue (no deben subirse al repositorio)
+DECOONEKEY.ppk
+deploy.ps1
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db
