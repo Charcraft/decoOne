@@ -1,6 +1,6 @@
 import { obtenerEventos } from '../components/api.js';
 
-const SERVER_URL = 'http://localhost:7000';
+const SERVER_URL = window.API_BASE_URL;
 
 const HORA_INICIO_CALENDARIO = 0;   
 const HORA_FIN_CALENDARIO = 25;     
@@ -13,8 +13,6 @@ const NOMBRES_MESES = [
 
 let inicioSemanaActual = obtenerInicioDeSemana(new Date());
 let listaEventosSemana = [];
-let modoEdicionAgenda = false;
-let idEventoSeleccionadoAgenda = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
     dibujarEstructuraCalendario();
@@ -192,21 +190,12 @@ function pintarEventos(eventos, inicioSemana) {
             bloque.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                     <strong>${primerEvento.titulo}</strong>
-                    <button type="button" class="btn-edit-agenda" title="Editar Evento" style="background:none; border:none; color:inherit; cursor:pointer; padding:0 2px; position:relative; z-index:10;">
-                        <i data-lucide="edit-2" style="width:13px; height:13px; pointer-events:none;"></i>
-                    </button>
                 </div>
                 <small>${formatearHora(horaReal)} - ${duracionReal}h</small>
             `;
 
             bloque.addEventListener('click', () => {
                 abrirModalDetallesAgenda(primerEvento);
-            });
-
-            const btnEditar = bloque.querySelector('.btn-edit-agenda');
-            btnEditar.addEventListener('click', (e) => {
-                e.stopPropagation(); 
-                abrirModalParaEditarAgenda(primerEvento);
             });
         }
 
@@ -223,122 +212,10 @@ function formatearHora(horaDecimal) {
 }
 
 function inicializarModalAgenda() {
-    const modalForm = document.getElementById('modalNuevoEvento');
     const modalDet = document.getElementById('modalVerDetalles');
-    const formulario = document.getElementById('formularioNuevoEvento');
-    const tituloContenedor = modalForm.querySelector('.modal-titulo');
 
-    document.getElementById('botonAbrirModalEvento').addEventListener('click', () => {
-        modoEdicionAgenda = false;
-        idEventoSeleccionadoAgenda = null;
-        tituloContenedor.innerHTML = '<i data-lucide="calendar-plus"></i><h3>AGREGAR EVENTO</h3>';
-        lucide.createIcons();
-        formulario.reset();
-        modalForm.classList.remove('oculto');
-    });
-
-    document.getElementById('botonCerrarModal').addEventListener('click', () => modalForm.classList.add('oculto'));
-    document.getElementById('botonCancelarModal').addEventListener('click', () => modalForm.classList.add('oculto'));
     document.getElementById('botonCerrarDetalles').addEventListener('click', () => modalDet.classList.add('oculto'));
     document.getElementById('botonCerrarDetallesAceptar').addEventListener('click', () => modalDet.classList.add('oculto'));
-
-    formulario.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-    // Primero, buscamos los elementos de forma segura
-        const inputSalon = document.getElementById('inputSalonEvento');
-        const inputEstado = document.getElementById('inputEstadoEvento');
-        const inputMateriales = document.getElementById('inputMateriales');
-
-        // Sanitización robusta
-        const sanitizarFecha = (f) => {
-            if (f.includes('/')) {
-                const p = f.split('/');
-                return p.length === 3 ? `${p[2]}-${p[1].padStart(2, '0')}-${p[0].padStart(2, '0')}` : f;
-            }
-            return f;
-        };
-        const sanitizarHora = (h) => {
-            if (!h) return "00:00:00";
-            let hl = h.toLowerCase().replace(/[^0-9:ampm]/g, '');
-            if (hl.includes('am') || hl.includes('pm')) {
-                let isPM = hl.includes('pm');
-                hl = hl.replace(/am|pm/g, '');
-                let p = hl.split(':');
-                let hr = parseInt(p[0]) || 0;
-                let mn = p[1] ? p[1].substring(0, 2) : '00';
-                if (isPM && hr < 12) hr += 12;
-                if (!isPM && hr === 12) hr = 0;
-                return `${hr.toString().padStart(2, '0')}:${mn}:00`;
-            }
-            let p = h.split(':');
-            return `${(p[0] || '00').padStart(2, '0')}:${(p[1] || '00').padStart(2, '0')}:00`;
-        };
-
-        const datos = {
-            titulo: document.getElementById('inputNombreEvento').value,
-            tipo: document.getElementById('inputTipoEvento').value,
-            fecha: sanitizarFecha(document.getElementById('inputFechaEvento').value),
-            horaInicio: sanitizarHora(document.getElementById('inputHoraInicio').value),
-            horaRecogerMaterial: sanitizarHora(document.getElementById('inputHoraRecoger').value),
-            duracionHoras: 3,
-            
-            // Si el select existe, toma su valor; si no, pon un valor por defecto
-            salon: inputSalon ? inputSalon.value : 'Por definir',
-            estado: inputEstado ? inputEstado.value : 'proceso',
-            materiales: inputMateriales && inputMateriales.value ? inputMateriales.value.split(',').map(m => m.trim()).filter(Boolean) : []
-        };
-
-        if (modoEdicionAgenda && idEventoSeleccionadoAgenda !== null) {
-            await editarEventoAgenda(idEventoSeleccionadoAgenda, datos);
-        } else {
-            const extra = {
-                solicitante: 'Registro Manual (Agenda)',
-                imagen: 'https://images.unsplash.com/photo-1478146059778-26028b07395a?auto=format&fit=crop&w=600&q=80'
-            };
-            await agregarEventoAgenda({ ...datos, ...extra });
-        }
-
-        modalForm.classList.add('oculto');
-        formulario.reset();
-        await cargarYPintarSemana();
-    });
-}
-
-function abrirModalParaEditarAgenda(evento) {
-    modoEdicionAgenda = true;
-    idEventoSeleccionadoAgenda = evento.id;
-
-    const modalForm = document.getElementById('modalNuevoEvento');
-    const tituloContenedor = modalForm.querySelector('.modal-titulo');
-    tituloContenedor.innerHTML = '<i data-lucide="edit-2"></i><h3>EDICIÓN DE EVENTO</h3>';
-    lucide.createIcons();
-
-    // Función auxiliar para llenar inputs de forma SEGURA
-    const llenarInputSeguro = (id, valor) => {
-        const input = document.getElementById(id);
-        if (input) input.value = valor;
-    };
-
-    // Llenamos los datos sin riesgo de que explote si falta algún input en el HTML
-    llenarInputSeguro('inputNombreEvento', evento.titulo);
-    llenarInputSeguro('inputTipoEvento', evento.tipo);
-    llenarInputSeguro('inputFechaEvento', evento.fecha);
-    
-    // Validamos que horaInicio sea número antes de convertir
-    const horaIn = parseFloat(evento.horaInicio) || 12;
-    llenarInputSeguro('inputHoraInicio', convertirNumeroAHoraString(horaIn));
-    
-    // Si tiene hora de recoger, la ponemos, si no, lo dejamos en blanco
-    if (evento.horaRecogerMaterial) {
-        llenarInputSeguro('inputHoraRecoger', convertirNumeroAHoraString(evento.horaRecogerMaterial));
-    }
-    
-    llenarInputSeguro('inputSalonEvento', evento.salon || 'Por definir');
-    llenarInputSeguro('inputMateriales', (evento.materiales || []).join(', '));
-    llenarInputSeguro('inputEstadoEvento', evento.estado || 'proceso');
-
-    modalForm.classList.remove('oculto');
 }
 
 function abrirModalDetallesAgenda(evento) {

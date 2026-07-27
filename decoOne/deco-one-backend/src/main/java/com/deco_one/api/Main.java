@@ -801,8 +801,9 @@ public class Main {
                 java.util.Map<String, Object> body = ctx.bodyAsClass(java.util.Map.class);
                 String sql = "INSERT INTO eventos (id_solicitud, titulo, tipo_evento, fecha_evento, hora_inicio, duracion_horas, salon, estado, presupuesto, abono_requerido, tamano_evento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                try (java.sql.Connection conn = com.deco_one.api.DatabaseConnection.getConnection();
-                        java.sql.PreparedStatement stmt = conn.prepareStatement(sql,
+                try (java.sql.Connection conn = com.deco_one.api.DatabaseConnection.getConnection()) {
+                    conn.setAutoCommit(false);
+                    try (java.sql.PreparedStatement stmt = conn.prepareStatement(sql,
                                 java.sql.Statement.RETURN_GENERATED_KEYS)) {
 
                     // 1. Manejo seguro de id_solicitud (Si es manual, va como NULL)
@@ -896,11 +897,19 @@ public class Main {
                         }
                     }
 
+                    conn.commit();
                     ctx.status(201).result("Evento creado con éxito");
+                    } catch (Exception e) {
+                        conn.rollback();
+                        throw e;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                ctx.status(500).result("Error al crear evento: " + e.getMessage());
+                String mensaje = (e.getMessage() != null && e.getMessage().toLowerCase().contains("foreign key"))
+                        ? "Uno de los materiales seleccionados ya no existe en el inventario. Actualiza la página e intenta de nuevo."
+                        : "Error al crear evento: " + e.getMessage();
+                ctx.status(500).result(mensaje);
             }
         });
 
@@ -914,8 +923,9 @@ public class Main {
                 java.util.Map<String, Object> body = ctx.bodyAsClass(java.util.Map.class);
                 String sql = "UPDATE eventos SET titulo = ?, tipo_evento = ?, fecha_evento = ?, hora_inicio = ?, duracion_horas = ?, salon = ?, estado = ?, presupuesto = ?, abono_requerido = ?, tamano_evento = ? WHERE id = ?";
 
-                try (java.sql.Connection conn = com.deco_one.api.DatabaseConnection.getConnection();
-                     java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+                try (java.sql.Connection conn = com.deco_one.api.DatabaseConnection.getConnection()) {
+                    conn.setAutoCommit(false);
+                    try (java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
 
                     // 1. Extracción segura (evita NullPointerException usando String.valueOf y comprobaciones)
                     String titulo = body.get("titulo") != null ? String.valueOf(body.get("titulo")) : "Sin título";
@@ -1019,11 +1029,19 @@ public class Main {
                         }
                     }
 
+                    conn.commit();
                     ctx.status(200).result("Evento actualizado con éxito");
+                    } catch (Exception e) {
+                        conn.rollback();
+                        throw e;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                ctx.status(500).result("Error al actualizar el evento: " + e.getMessage());
+                String mensaje = (e.getMessage() != null && e.getMessage().toLowerCase().contains("foreign key"))
+                        ? "Uno de los materiales seleccionados ya no existe en el inventario. Actualiza la página e intenta de nuevo."
+                        : "Error al actualizar el evento: " + e.getMessage();
+                ctx.status(500).result(mensaje);
             }
         });
         // --------------------------------------------------------

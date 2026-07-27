@@ -1,6 +1,6 @@
 import { obtenerEventos, obtenerInventario, agregarEventoAgenda, editarEventoAgenda } from '../components/api.js';
 
-const SERVER_URL = 'http://localhost:7000';
+const SERVER_URL = window.API_BASE_URL;
 
 // Arreglo completado y cerrado correctamente
 const NOMBRES_MESES_HISTORIAL = [
@@ -77,6 +77,7 @@ async function recargarVistaHistorial() {
                 horaRecogerMaterial: (e.hora_inicio || 12) + (e.duracion_horas || 3),
                 salon: e.salon,
                 estado: e.estado || 'proceso',
+                estadoManual: e.estado || 'auto',
                 presupuesto: e.presupuesto || 0,
                 abono_requerido: e.abono_requerido || 0,
                 tamano_evento: e.tamano_evento || 'Pequeño',
@@ -206,20 +207,6 @@ function inicializarControladorModales() {
     const modalForm = document.getElementById('modalNuevoEvento');
     const modalDet = document.getElementById('modalVerDetalles');
     const formulario = document.getElementById('formularioNuevoEvento');
-    const tituloContenedor = modalForm.querySelector('.modal-titulo');
-
-    document.getElementById('botonAbrirModalEvento').addEventListener('click', () => {
-        modoEdicion = false;
-        idEventoSeleccionado = null;
-        tituloContenedor.innerHTML = '<i data-lucide="calendar-plus"></i><h3>AGREGAR EVENTO</h3>';
-
-        materialesAsignadosTemporales = []; // <-- LIMPIAR ARRAY
-        pintarTablaMaterialesDinamicos();   // <-- VACIAR TABLA VISUAL
-
-        lucide.createIcons();
-        formulario.reset();
-        modalForm.classList.remove('oculto');
-    });
 
     document.getElementById('botonCerrarModal').addEventListener('click', () => modalForm.classList.add('oculto'));
     document.getElementById('botonCancelarModal').addEventListener('click', () => modalForm.classList.add('oculto'));
@@ -271,14 +258,19 @@ function inicializarControladorModales() {
             }))
         };
 
-        if (modoEdicion && idEventoSeleccionado !== null) {
-            await editarEventoAgenda(idEventoSeleccionado, datos);
-        } else {
-            const extraData = {
-                solicitante: 'Registro Manual (Decorador)',
-                imagen: 'https://images.unsplash.com/photo-1478146059778-26028b07395a?auto=format&fit=crop&w=600&q=80'
-            };
-            await agregarEventoAgenda({ ...datos, ...extraData });
+        try {
+            if (modoEdicion && idEventoSeleccionado !== null) {
+                await editarEventoAgenda(idEventoSeleccionado, datos);
+            } else {
+                const extraData = {
+                    solicitante: 'Registro Manual (Decorador)',
+                    imagen: 'https://images.unsplash.com/photo-1478146059778-26028b07395a?auto=format&fit=crop&w=600&q=80'
+                };
+                await agregarEventoAgenda({ ...datos, ...extraData });
+            }
+        } catch (error) {
+            alert(error.message || 'Ocurrió un error al guardar el evento. Intenta de nuevo.');
+            return; // No cerramos el modal ni recargamos si falló, para no perder lo que escribiste
         }
 
         modalForm.classList.add('oculto');
@@ -287,13 +279,14 @@ function inicializarControladorModales() {
     });
 }
 
-function abrirModalParaEditar(evento) {
+async function abrirModalParaEditar(evento) {
     modoEdicion = true;
     idEventoSeleccionado = evento.id;
 
     const modalForm = document.getElementById('modalNuevoEvento');
     const tituloContenedor = modalForm.querySelector('.modal-titulo');
     tituloContenedor.innerHTML = '<i data-lucide="edit-2"></i><h3>EDICIÓN DE EVENTO</h3>';
+    document.getElementById('botonSubmitEvento').textContent = 'Guardar Cambios';
     if (window.lucide) lucide.createIcons();
 
     document.getElementById('inputNombreEvento').value = evento.titulo;
@@ -307,28 +300,35 @@ function abrirModalParaEditar(evento) {
 
     document.getElementById('inputPresupuesto').value = evento.presupuesto || '';
 
-    // Convertimos los materiales desde el backend al formato de la tablita
+    // Refrescamos el inventario por si cambió desde la última vez que se cargó la página
+    // (si no, se pueden seguir seleccionando materiales ya borrados del inventario,
+    // lo que hace fallar el guardado completo por una restricción de la base de datos).
+    await cargarInventarioEnSelect();
+
+    // Convertimos los materiales desde el backend al formato de la tablita.
+    // IMPORTANTE: esperamos a que termine el fetch ANTES de mostrar el modal.
+    // Antes se mostraba el modal de inmediato mientras el fetch seguía en curso,
+    // y si el usuario agregaba un material antes de que la respuesta llegara,
+    // esa respuesta tardía sobreescribía lo que el usuario acababa de agregar.
     materialesAsignadosTemporales = [];
-    pintarTablaMaterialesDinamicos(); // Renderiza vacío primero
+    try {
+        const respuesta = await fetch(`${SERVER_URL}/api/eventos/${evento.id}/materiales`);
+        const materiales = await respuesta.json();
+        if (materiales && materiales.length > 0) {
+            materialesAsignadosTemporales = materiales.map(m => ({
+                id_articulo: m.id_articulo,
+                nombre: m.nombre,
+                cantidad: m.cantidad
+            }));
+        }
+    } catch (error) {
+        console.error('Error cargando materiales del evento:', error);
+    }
+    pintarTablaMaterialesDinamicos();
 
-    fetch(`${SERVER_URL}/api/eventos/${evento.id}/materiales`)
-        .then(res => res.json())
-        .then(materiales => {
-            if (materiales && materiales.length > 0) {
-                materialesAsignadosTemporales = materiales.map(m => ({
-                    id_articulo: m.id_articulo,
-                    nombre: m.nombre,
-                    cantidad: m.cantidad
-                }));
-                pintarTablaMaterialesDinamicos();
-            }
-        })
-        .catch(console.error);
-
-    // LA SOLUCIÓN: Verificamos que el select exista antes de inyectarle el dato
-    const inputEstado = document.getElementById('inputEstadoEvento');
+    const inputEstado = document.getElementById('inputEstadoManual');
     if (inputEstado) {
-        inputEstado.value = evento.estado || 'proceso';
+        inputEstado.value = evento.estadoManual || 'auto';
     }
 
     modalForm.classList.remove('oculto');

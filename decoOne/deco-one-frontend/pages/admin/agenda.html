@@ -31,9 +31,6 @@
                         <button type="button" id="botonSemanaSiguiente"><i data-lucide="chevron-right"></i></button>
                     </div>
                 </div>
-                <button type="button" class="boton-agregar-evento" id="botonAbrirModalEvento">
-                    <i data-lucide="plus"></i> Agregar
-                </button>
             </section>
 
             <section class="contenedor-calendario">
@@ -44,74 +41,6 @@
                 </div>
             </section>
         </main>
-    </div>
-
-    <div id="modalNuevoEvento" class="modal-overlay oculto">
-        <div class="modal-contenedor">
-            <div class="modal-cabecera">
-                <div class="modal-titulo">
-                    <i data-lucide="calendar-plus"></i>
-                    <h3>AGREGAR EVENTO</h3>
-                </div>
-                <button type="button" class="boton-cerrar-modal" id="botonCerrarModal">&times;</button>
-            </div>
-            
-            <form id="formularioNuevoEvento" class="modal-formulario">
-                <div class="campo-formulario">
-                    <label>NOMBRE DEL EVENTO / CLIENTE</label>
-                    <input type="text" id="inputNombreEvento" placeholder="Ej: Boda Familia Gómez o Baby Shower García" required>
-                </div>
-
-                <div class="fila-modal">
-                    <div class="campo-formulario">
-                        <label>TIPO DE EVENTO</label>
-                        <input type="text" id="inputTipoEvento" placeholder="Ej: Boda, XV Años, Infantil" required>
-                    </div>
-                    <div class="campo-formulario">
-                        <label>FECHA DEL EVENTO</label>
-                        <input type="date" id="inputFechaEvento" required>
-                    </div>
-                </div>
-
-                <div class="fila-modal">
-                    <div class="campo-formulario">
-                        <label>HORA DE INICIO</label>
-                        <input type="time" id="inputHoraInicio" required>
-                    </div>
-                    <div class="campo-formulario">
-                        <label>HORA DE RECOGER MATERIAL</label>
-                        <input type="time" id="inputHoraRecoger" required>
-                    </div>
-                </div>
-
-                <div class="campo-formulario">
-                    <label>LUGAR / SALÓN</label>
-                    <select id="inputSalonEvento" required>
-                        <option value="" disabled selected>Selecciona una ubicación</option>
-                        <option value="Salón Elegante">Salón Elegante</option>
-                        <option value="Salón Moderno">Salón Moderno</option>
-                        <option value="Por definir">Por definir</option>
-                    </select>
-                </div>
-                <div class="campo-formulario">
-                    <label>ESTADO DEL EVENTO (OPCIONAL)</label>
-                    <select id="inputEstadoManual">
-                        <option value="auto" selected>Automático (Por fecha y hora)</option>
-                        <option value="curso">Forzar: En Curso</option>
-                        <option value="terminado">Forzar: Terminado</option>
-                    </select>
-                </div>
-                <div class="campo-formulario">
-                    <label>MATERIALES POR USAR (SEPARADOS POR COMAS)</label>
-                    <textarea id="inputMateriales" placeholder="Ej: Globos rosa, Letras 'BABY', Mesa de dulces..."></textarea>
-                </div>
-
-                <div class="modal-acciones">
-                    <button type="button" class="boton-secundario" id="botonCancelarModal">Cancelar</button>
-                    <button type="submit" class="boton-primario">Confirmar Registro</button>
-                </div>
-            </form>
-        </div>
     </div>
 
     <div id="modalVerDetalles" class="modal-overlay oculto">
@@ -189,12 +118,13 @@
     </div>
 <!-- ... tus scripts anteriores ... -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../../js/config.js"></script>
     <script src="../../js/core/localStorage.js"></script>
     <script src="../../js/components/navbar-admin.js"></script>
     <script src="../../js/components/sidebar-admin.js"></script>
     <script src="../../js/components/layout-loader.js"></script>
     <script src="../../js/components/modal-evento.js"></script>
-    
+
     <!-- 1. ELIMINAMOS agendaSimulado.js porque ya usamos datos reales -->
     
     <!-- 2. AGREGAMOS type="module" para que pueda importar desde api.js -->
