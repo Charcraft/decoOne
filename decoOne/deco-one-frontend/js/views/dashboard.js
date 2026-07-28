@@ -42,7 +42,10 @@ function activarTab(idActivo) {
 // METRICAS SUPERIORES
 // ==========================================
 async function cargarEstadisticas() {
-    const respuesta = await fetch(`${SERVER_URL}/api/dashboard/stats`);
+    // Endpoint protegido: requiere el JWT guardado al iniciar sesión.
+    const respuesta = await fetch(`${SERVER_URL}/api/dashboard/stats`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    });
     const metricas = await respuesta.json();
 
     document.getElementById('metricaIngresos').textContent = `$ ${metricas.total_ingresos.toLocaleString('es-MX')} MXN`;

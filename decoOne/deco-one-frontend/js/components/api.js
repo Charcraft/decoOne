@@ -223,11 +223,15 @@ export const agregarElementoInventario = async (datos) => {
 };
 
 // Edita un elemento del inventario
+// Endpoint protegido: requiere el JWT guardado al iniciar sesión.
 export const editarElementoInventario = async (id, datos) => {
     try {
         const respuesta = await fetch(`${API_BASE_URL}/inventario/${id}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
             body: JSON.stringify(datos)
         });
         if (!respuesta.ok) throw new Error('Error al editar');
@@ -239,13 +243,15 @@ export const editarElementoInventario = async (id, datos) => {
 };
 
 // Elimina (o resta) un elemento del inventario
+// Endpoint protegido: requiere el JWT guardado al iniciar sesión.
 export const eliminarElementoInventario = async (id, cantidad = null) => {
     try {
         // Si mandan cantidad, la pasamos por la URL para que Java la reste
         const url = cantidad ? `${API_BASE_URL}/inventario/${id}?cantidad=${cantidad}` : `${API_BASE_URL}/inventario/${id}`;
 
         const respuesta = await fetch(url, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
         if (!respuesta.ok) throw new Error('Error al eliminar');
 
