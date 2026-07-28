@@ -1,6 +1,10 @@
 package com.deco_one.api;
 
 import io.javalin.Javalin;
+import io.javalin.http.Handler;
+import io.javalin.http.UnauthorizedResponse;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +21,44 @@ public class Main {
                 });
             });
         });
+
+        // ==================== SEGURIDAD (JWT) ====================
+        // Convierte cualquier UnauthorizedResponse lanzada en los handlers/filtros
+        // en un JSON {"error": "..."} consistente con el resto de la API.
+        app.exception(UnauthorizedResponse.class, (e, ctx) -> {
+            ctx.status(401).json(new Object() {
+                public String error = e.getMessage();
+            });
+        });
+
+        // Handler reutilizable que protege una ruta: exige un header
+        // "Authorization: Bearer <token>" con un JWT válido y no vencido.
+        // Si es válido, expone el id y el rol del usuario como atributos del ctx.
+        // Si no, lanza UnauthorizedResponse, lo que detiene la petición antes
+        // de que llegue al endpoint real (antes solo poner ctx.status(401) NO
+        // frena la ejecución del handler siguiente en Javalin).
+        Handler requiereToken = ctx -> {
+            String header = ctx.header("Authorization");
+
+            if (header == null || !header.startsWith("Bearer ")) {
+                throw new UnauthorizedResponse("No se proporcionó un token de acceso");
+            }
+
+            String token = header.substring("Bearer ".length());
+
+            try {
+                Claims claims = JwtUtil.validarToken(token);
+                ctx.attribute("idUsuario", claims.getSubject());
+                ctx.attribute("rolUsuario", claims.get("rol", String.class));
+            } catch (JwtException e) {
+                logger.warn("✗ Token rechazado: " + e.getMessage());
+                throw new UnauthorizedResponse("Token inválido o expirado");
+            }
+        };
+
+        // Endpoints protegidos: requieren un JWT válido.
+        app.before("/api/dashboard/stats", requiereToken);
+        app.before("/api/inventario/{id}", requiereToken);
 
         // ==================== RUTAS ====================
 
@@ -1095,9 +1137,10 @@ public class Main {
 
             try {
                 Usuario nuevoUser = UsuarioDAO.registrarUsuario(req.nombre, req.correo, req.contrasena);
+                String tokenGenerado = JwtUtil.generarToken(nuevoUser.id, nuevoUser.rol);
 
                 ctx.status(201).json(new Object() {
-                    public String token = java.util.UUID.randomUUID().toString();
+                    public String token = tokenGenerado;
                     public Usuario usuario = nuevoUser;
                 });
             } catch (Exception e) {
@@ -1114,8 +1157,10 @@ public class Main {
             Usuario user = UsuarioDAO.autenticar(req.correo, req.contrasena);
 
             if (user != null) {
+                String tokenGenerado = JwtUtil.generarToken(user.id, user.rol);
+                logger.info("✓ Token JWT generado para usuario id=" + user.id + " rol=" + user.rol);
                 ctx.status(200).json(new Object() {
-                    public String token = java.util.UUID.randomUUID().toString();
+                    public String token = tokenGenerado;
                     public Usuario usuario = user;
                 });
             } else {
